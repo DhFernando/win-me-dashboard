@@ -1,0 +1,70 @@
+@media screen and (max-width: 600px) {
+  .outer__container {
+    display: unset !important;
+    height: auto !important;
+    width: 100%;
+  }
+
+  .outer_box {
+    display: unset !important;
+    width: unset !important;
+    border-radius: unset !important;
+    box-shadow: unset !important;
+  }
+  .outer_side_content {
+    border-radius: 30px 30px 0 0;
+    margin-top: -30px;
+    background-color: white;
+    position: absolute;
+    width: 100%;
+  }
+
+  .outer_side_banner {
+    height: 300px !important;
+  }
+
+  .outer_box2 {
+    width: 100% !important;
+  }
+
+  .center_content {
+    padding: unset !important;
+  }
+
+  .side-menu.inactive {
+    width: 55px !important;
+  }
+
+  .side-menu {
+    padding: 10px 10px !important;
+  }
+
+  .container_main.inactive {
+    margin-left: 55px !important;
+  }
+
+  .side-menu .top-section .logo {
+    width: 38px !important;
+  }
+
+  .ant-breadcrumb {
+    display: none !important;
+  }
+
+  .status-card {
+    width: 100% !important;
+    margin-bottom: 14px !important;
+  }
+
+  .box_section {
+    display: unset !important;
+  }
+
+  .bottom_row{
+    flex-direction: column;
+  }
+
+  .status_section{
+    padding-left: unset !important;
+  }
+}

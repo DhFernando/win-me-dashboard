@@ -1,0 +1,63 @@
+@import "setting";
+
+.Header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 50px;
+  background-color: $header_bg_color;
+  padding-right: 20px;
+  padding-left: 20px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.Header_right {
+  display: flex;
+  align-items: center;
+}
+
+.Header_right > .ant-badge {
+  margin-right: 15px;
+  font-size: 20px;
+  color: $icon_color;
+  cursor: pointer;
+}
+
+.Header_right > .ant-avatar {
+  cursor: pointer;
+}
+
+.Header_left {
+  display: flex;
+  align-items: center;
+}
+
+.Header_left > .Header_main {
+  margin-left: 10px;
+}
+
+.toggle-menu-btn {
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.Header_main_top {
+  display: flex;
+  align-items: center;
+}
+
+.Header_main_top > img {
+  width: 45px;
+  margin-right: 10px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.Header_main_top_right > p {
+  font-size: 16px;
+  color: #545454;
+  font-weight: 600;
+  margin-bottom: -5px;
+}

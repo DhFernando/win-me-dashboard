@@ -1,0 +1,259 @@
+@import "setting";
+
+// /* width */
+// ::-webkit-scrollbar {
+//   width: 3px;
+// }
+
+// /* Track */
+// ::-webkit-scrollbar-track {
+//   box-shadow: inset 0 0 5px grey;
+//   border-radius: 10px;
+//   display: none;
+// }
+
+// /* Handle */
+// ::-webkit-scrollbar-thumb {
+//   background: #333;
+//   border-radius: 10px;
+//   display: none;
+// }
+
+// /* Handle on hover */
+// ::-webkit-scrollbar-thumb:hover {
+//   background: #333;
+//   display: block;
+// }
+
+::-webkit-scrollbar {
+  width: 15px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: #e4e4e4;
+  border-radius: 100px;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 100px;
+  border: 4px solid transparent;
+  background-clip: content-box;
+  background-color: #909090d9;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #333;
+}
+
+.ant-input-affix-wrapper,
+.ant-input {
+  border-radius: 5px;
+}
+
+.ant-form-item-explain.ant-form-item-explain-error {
+  font-size: 12px;
+}
+
+.loader-60devs .loader-60devs-progress {
+  height: 3px !important;
+  background-color: $primary-color !important;
+}
+
+.ant-btn-primary {
+  color: #fff;
+  border-color: $primary-color;
+  background: $primary-color;
+
+  &:hover {
+    border-color: $primary-color-focus;
+    background: $primary-color-focus;
+  }
+
+  &:active {
+    border-color: $primary-color-focus;
+    background: $primary-color-focus;
+  }
+
+  &:visited {
+    border-color: $primary-color-focus;
+    background: $primary-color-focus;
+  }
+
+  &:focus {
+    border-color: $primary-color-focus;
+    background: $primary-color-focus;
+  }
+}
+
+.ant-btn:hover,
+.ant-btn:focus {
+  color: $primary-color;
+  border-color: $primary-color;
+  background: #fff;
+}
+
+.ant-steps-item-finish .ant-steps-item-icon {
+  border-color: $primary-color;
+}
+
+.ant-steps-item-finish .ant-steps-item-icon > .ant-steps-icon {
+  color: $primary-color;
+}
+
+.ant-steps-item-finish
+  > .ant-steps-item-container
+  > .ant-steps-item-content
+  > .ant-steps-item-title::after {
+  background-color: $primary-color;
+}
+
+.ant-steps-item-process > .ant-steps-item-container > .ant-steps-item-icon {
+  background: #4e4e4e;
+}
+.ant-steps-item-process .ant-steps-item-icon {
+  background-color: #fff;
+  border-color: #4e4e4e;
+}
+
+.edit_button {
+  background-color: #787878;
+  border-color: #787878;
+  color: white;
+
+  &:hover {
+    border-color: #16a085;
+    color: #16a085;
+  }
+
+  &:active {
+    border-color: #16a085;
+    color: #16a085;
+  }
+
+  &:visited {
+    border-color: #16a085;
+    color: #16a085;
+  }
+
+  &:focus {
+    border-color: #16a085;
+    color: #16a085;
+  }
+
+  &:disabled {
+    border-color: #16a085;
+    color: #16a085;
+  }
+  
+
+}
+
+
+.delete_button {
+  background-color: #787878;
+  border-color: #787878;
+  color: white;
+
+  &:hover {
+    border-color: #AF0606;
+    color: #AF0606;
+  }
+
+  &:active {
+    border-color: #AF0606;
+    color: #AF0606;
+  }
+
+  &:visited {
+    border-color: #AF0606;
+    color: #AF0606;
+  }
+
+  &:focus {
+    border-color: #AF0606;
+    color: #AF0606;
+  }
+
+  &:active {
+    border-color: #AF0606;
+    color: #AF0606;
+  }
+
+
+}
+
+
+.view_button {
+  background-color: #787878;
+  border-color: #787878;
+  color: white;
+
+  &:hover {
+    border-color: #7F8C8D;
+    color: #7F8C8D;
+  }
+
+  &:active {
+    border-color: #7F8C8D;
+    color: #7F8C8D;
+  }
+
+  &:visited {
+    border-color: #7F8C8D;
+    color: #7F8C8D;
+  }
+
+  &:focus {
+    border-color: #7F8C8D;
+    color: #7F8C8D;
+  }
+
+  &:active {
+    border-color: #7F8C8D;
+    color: #7F8C8D;
+  }
+
+
+}
+
+
+.add_button {
+  background-color: #787878;
+  border-color: #787878;
+  color: white;
+
+  &:hover {
+    border-color: #E67E22;
+    color: #E67E22;
+  }
+
+  &:active {
+    border-color: #E67E22;
+    color: #E67E22;
+  }
+
+  &:visited {
+    border-color: #E67E22;
+    color: #E67E22;
+  }
+
+  &:focus {
+    border-color: #E67E22;
+    color: #E67E22;
+  }
+
+  &:active {
+    border-color: #E67E22;
+    color: #E67E22;
+  }
+
+
+}
+
+.ant-table-thead > tr > th, .ant-table-tbody > tr > td, .ant-table tfoot > tr > th, .ant-table tfoot > tr > td {
+  padding: 7px 7px;
+}
+
+.ant-switch-checked {
+  background-color: #c73b27;
+}

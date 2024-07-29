@@ -1,0 +1,72 @@
+@import "setting";
+
+.review_outer_logo {
+  display: flex;
+  justify-content: space-between;
+}
+
+.review_outer_logo > p {
+  font-weight: 600;
+}
+
+.review_title > h1 {
+  font-size: $font-size-large;
+  font-weight: 600;
+}
+
+.review_form {
+  padding: 10px 20px;
+}
+
+.review_form > p {
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.review_form > p > span {
+  font-weight: 500;
+  color: $span-color;
+  font-size: $font-size-small;
+}
+
+.review_location_row {
+  display: flex;
+  flex: 1;
+  justify-content: space-between;
+}
+
+.review_location_row > .location {
+  flex: 0.78;
+}
+.review_location_row > .map {
+  flex: 0.2;
+}
+
+.review_branch_row {
+  display: flex;
+  flex: 1;
+  justify-content: space-between;
+}
+
+.review_branch_row > .code {
+  flex: 0.49;
+}
+.review_branch_row > .type {
+  flex: 0.49;
+}
+
+.review_content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 325px;
+}
+
+.review_btn {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.review_btn > .ant-btn {
+  width: 100px;
+}

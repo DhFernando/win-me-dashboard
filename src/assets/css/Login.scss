@@ -1,0 +1,33 @@
+@import "setting";
+
+.login_title > h1 {
+  margin-bottom: 0;
+  font-size: 1.3em;
+  font-weight: bold;
+  color: $title-color;
+  margin-top: 15px;
+}
+
+.login_title p {
+  font-size: $font-size-small;
+  color: $span-color;
+  margin-bottom: 25px;
+}
+
+.forget_link {
+  margin-bottom: 10px;
+  font-size: $font-size-small;
+  color: $span-color;
+  cursor: pointer;
+  text-align: right;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.back_link {
+  margin-top: 10px;
+  font-size: $font-size-small;
+  color: #4c4c4c !important;
+  cursor: pointer;
+}
+

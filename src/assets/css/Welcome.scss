@@ -1,0 +1,21 @@
+@import "setting";
+
+.welcome_title > h1 {
+  font-size: $font-size-large;
+  font-weight: 600;
+}
+
+.welcome_sub_txt {
+  margin-bottom: 20px;
+}
+
+.welcome_sub_txt > p {
+  font-size: $font-size-small;
+  font-weight: 500;
+  margin-bottom: 5px;
+  color: $sub_txt-color;
+}
+
+.welcome_sub_txt > p > span {
+  font-weight: 700;
+}
