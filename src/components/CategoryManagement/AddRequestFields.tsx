@@ -4,16 +4,16 @@ import {
   ExclamationCircleOutlined,
 } from "@ant-design/icons";
 import { Button, Modal, Table } from "antd";
-import React, { useCallback, useEffect, useState } from "react";
-import { useRequestDataTableStore } from "../../store";
+import { useCallback, useEffect, useState } from "react"; 
 import AddFieldsModel from "./AddFieldsModel";
 import { ColumnType } from "antd/lib/table";
+import { useRequestDataTableStore } from "store/requestDataTableStore";
 
 const { confirm } = Modal;
 
 function AddRequestFields() {
   const [dataList, setDataList] = useState<any>([]);
-  const [visible, setVisible] = useState<any>(false);
+  const [visible, setVisible] = useState<boolean>(false);
   const [editData, setEditData] = useState<any>({});
   const { requestData, setRequestDataTableStore } = useRequestDataTableStore(
     useCallback(

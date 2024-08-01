@@ -4,15 +4,24 @@ import {
   ExclamationCircleOutlined
 } from "@ant-design/icons";
 import { Button, Modal, Table } from "antd";
-import React, { useCallback, useEffect, useState } from "react";
-import { useResponseDataTableStore } from "../../store";
+import { useCallback, useEffect, useState } from "react"; 
 import AddFieldsModel from "./AddFieldsModel";
 import { ColumnType } from "antd/lib/table";
+import { useResponseDataTableStore } from "store/responseDataTableStore";
 
 const { confirm } = Modal;
+ 
+export type TableDataColumnType = {
+  fields: {
+    name: string;
+    description: string;
+    fieldType: string;
+    required: boolean;
+  }
+}
 
 function AddResponseFields() {
-  const [visible, setVisible] = useState<any>(false);
+  const [visible, setVisible] = useState<boolean>(false);
   const [editData, setEditData] = useState<any>({});
   const [dataList, setDataList] = useState<any>([]);
   const { responseData, setResponseDataTableStore } = useResponseDataTableStore(
@@ -30,7 +39,7 @@ function AddResponseFields() {
   }, [responseData]);
 
 
-  const columns:ColumnType<any>[] = [
+  const columns:ColumnType<TableDataColumnType>[] = [
     {
       title: "Field Name",
       dataIndex: "fields",

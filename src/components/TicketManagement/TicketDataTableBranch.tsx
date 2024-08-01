@@ -2,28 +2,16 @@ import { EyeOutlined } from "@ant-design/icons";
 import { Button, Table, Tag } from "antd";
 import React, { useState, useEffect, useContext, useCallback } from "react";
 import useTicketList from "../../hooks/useTicketList";
-import moment from "moment";
-import { useStore } from "../../store";
+import moment from "moment"; 
 import ReplyModel from "./ReplyModel";
 import SummaryTicket from "./SummaryTicket";
 import { SocketContext } from "../../socket";
 import client from "../../GraphQL/ApolloClient";
 import { Socket } from "socket.io-client";
 import { ColumnType } from "antd/lib/table";
-
-// Define types for the ticket data
-interface Ticket {
-  id: string;
-  referenceId: string;
-  requestedProducts?: { name: string }[];
-  productRequest?: { referenceId: string };
-  createdAt?: string;
-  repliedTime?: string;
-  confirmedTime?: string;
-  completedTime?: string;
-  status: string;
-}
-
+import { useStore } from "store/useStore";
+import { ITicket } from "types";
+ 
 // Define types for the filter data
 interface FilterData {
   page: number;
@@ -44,7 +32,7 @@ function TicketDataTableBranch() {
   const [visibleSummary, setVisibleSummary] = useState<boolean>(false);
   const [replyTicketID, setReplyTicket] = useState<string | null>(null);
   const [submittedProducts, setSubmittedProducts] = useState<Record<string, Record<string, boolean>>>({});
-  const [tableDate, setTableDate] = useState<Ticket[]>([]);
+  const [tableDate, setTableDate] = useState<ITicket[]>([]);
   const [filterData, setFilterData] = useState<FilterData>({
     page: 1,
     pageSize: 10,
@@ -61,7 +49,6 @@ function TicketDataTableBranch() {
   const socket = useContext<Socket | null>(SocketContext);
 
   const handleInviteAccepted = useCallback((data: any) => {
-    console.log(data);
     client.refetchQueries({
       include: "active",
     });
@@ -88,7 +75,10 @@ function TicketDataTableBranch() {
   const ticketList = useTicketList(filterData);
 
   useEffect(() => {
-    setTableDate(ticketList.nodes);
+    if(ticketList){
+      setTableDate(ticketList.nodes);
+    }
+    
   }, [ticketList]);
 
   const replyTicket = (ticketId: string) => {
@@ -121,48 +111,48 @@ function TicketDataTableBranch() {
     {
       title: "Ticket ID",
       dataIndex: "referenceId",
-      sorter: (a: Ticket, b: Ticket) => a.referenceId.length - b.referenceId.length,
+      sorter: (a: ITicket, b: ITicket) => a.referenceId.length - b.referenceId.length,
       sortDirections: ["descend", "ascend"],
       width: 200,
     },
     {
       title: "Request ID",
-      render: (record: Ticket) =>
+      render: (record: ITicket) =>
         record.requestedProducts ? record.productRequest?.referenceId : "NA",
       width: 200,
     },
     {
       title: "Product",
-      render: (record: Ticket) =>
+      render: (record: ITicket) =>
         record.requestedProducts ? record.requestedProducts[0].name : "NA",
       sortDirections: ["descend", "ascend"],
       width: 150,
     },
     {
       title: "Received Time",
-      sorter: (a: Ticket, b: Ticket) => (a.createdAt ?? "").length - (b.createdAt ?? "").length,
-      render: (record: Ticket) =>
+      sorter: (a: ITicket, b: ITicket) => (a.createdAt ?? "").length - (b.createdAt ?? "").length,
+      render: (record: ITicket) =>
         record.createdAt ? moment(record.createdAt).format("YYYY-MM-DD h:mm:ss a") : "NA",
       width: 180,
     },
     {
       title: "Replied Time",
-      sorter: (a: Ticket, b: Ticket) => (a.repliedTime ?? "").length - (b.repliedTime ?? "").length,
-      render: (record: Ticket) =>
+      sorter: (a: ITicket, b: ITicket) => (a.repliedTime ?? "").length - (b.repliedTime ?? "").length,
+      render: (record: ITicket) =>
         record.repliedTime ? moment(record.repliedTime).format("YYYY-MM-DD h:mm:ss a") : "NA",
       width: 180,
     },
     {
       title: "User Confirmed Time",
-      sorter: (a: Ticket, b: Ticket) => (a.confirmedTime ?? "").length - (b.confirmedTime ?? "").length,
-      render: (record: Ticket) =>
+      sorter: (a: ITicket, b: ITicket) => (a.confirmedTime ?? "").length - (b.confirmedTime ?? "").length,
+      render: (record: ITicket) =>
         record.confirmedTime ? moment(record.confirmedTime).format("YYYY-MM-DD h:mm:ss a") : "NA",
       width: 180,
     },
     {
       title: "Deal Closed Time",
-      sorter: (a: Ticket, b: Ticket) => (a.completedTime ?? "").length - (b.completedTime ?? "").length,
-      render: (record: Ticket) =>
+      sorter: (a: ITicket, b: ITicket) => (a.completedTime ?? "").length - (b.completedTime ?? "").length,
+      render: (record: ITicket) =>
         record.completedTime ? moment(record.completedTime).format("YYYY-MM-DD h:mm:ss a") : "NA",
       width: 180,
     },
@@ -186,13 +176,13 @@ function TicketDataTableBranch() {
           </Tag>
         );
       },
-      sorter: (a: Ticket, b: Ticket) => a.status.length - b.status.length,
+      sorter: (a: ITicket, b: ITicket) => a.status.length - b.status.length,
       sortDirections: ["descend", "ascend"],
       width: 220,
     },
     {
       title: "Actions",
-      render: (text: any, record: Ticket) => (
+      render: (text: any, record: ITicket) => (
         <>
           {record.status === "PENDING_COMPANY_RESPONSE" && (
             <Button
@@ -229,7 +219,7 @@ function TicketDataTableBranch() {
         pagination={{
           current: filterData.page,
           pageSize: filterData.pageSize,
-          total: ticketList.totalCount,
+          total: ticketList?.totalCount,
           onChange: (page, pageSize) => {
             setFilterData((prev) => ({
               ...prev,

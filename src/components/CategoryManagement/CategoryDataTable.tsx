@@ -7,8 +7,7 @@ import {
 } from "@ant-design/icons";
 import { Avatar, Button, Input, Modal, Space, Table, Tag, message } from "antd";
 import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
-import { useRefreshDataTables } from "../../store";
+import { useHistory } from "react-router-dom"; 
 import { useMutation } from "@apollo/client";
 import { UPDATE_PRODUCT_CATEGORY } from "../../GraphQL/Mutations";
 import Progress from "react-progress-2";
@@ -17,6 +16,8 @@ import useProductsCategoryList from "../../hooks/useProductsCategoryList";
 import Logo from "../../assets/images/logo.png";
 import { ColumnType } from "antd/lib/table";
 import { FilterDropdownProps } from "antd/lib/table/interface";
+import { useRefreshDataTables } from "store/refreshDataTables";
+import { GraphQLSuccess } from "types/GraphQLTypes";
 
 function CategoryDataTable() {
   const history = useHistory();
@@ -235,7 +236,7 @@ function CategoryDataTable() {
 
   const [updateProduct] = useMutation(UPDATE_PRODUCT_CATEGORY, {
     onCompleted: (data) => {
-      if (data.updateProductCategory.__typename === "ProductCategoryUpdated") {
+      if (data.updateProductCategory.__typename === GraphQLSuccess.ProductCategoryUpdated) {
         message.success("Category deleted successfully");
         Progress.hide();
       } else {

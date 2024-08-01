@@ -1,11 +1,12 @@
 import { UploadOutlined } from "@ant-design/icons";
-import React, { useEffect, useState } from "react";
-import { useImagesStore, usePostDataStore } from "../../store";
+import React, { useEffect, useState } from "react"; 
 import { uploadFileToS3 } from "../../util/uploadFileToS3";
 import Progress from "react-progress-2";
 import { message } from "antd";
 import { S3config } from "../../properties";
 import { Spin } from "antd";
+import { useImagesStore } from "store/imagesStore";
+import { usePostDataStore } from "store/postDataStore";
 
 function ImagesSection() {
   const imagesStore = useImagesStore((state) => state.imagesStore);
@@ -13,8 +14,8 @@ function ImagesSection() {
 
   const setPostData = usePostDataStore((state) => state.setPostData);
   const postData = usePostDataStore((state) => state.postData);
-  const [loading1, setLoading1] = useState<any>(false);
-  const [loading2, setLoading2] = useState<any>(false);
+  const [loading1, setLoading1] = useState<boolean>(false);
+  const [loading2, setLoading2] = useState<boolean>(false);
 
   useEffect(() => {
     setPostData({

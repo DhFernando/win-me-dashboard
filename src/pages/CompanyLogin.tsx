@@ -1,4 +1,3 @@
-import React from "react";
 import SideBanner from "../assets/images/logo-side.jpg";
 import Logo from "../assets/images/logo.png";
 import "./../assets/css/Login.scss";

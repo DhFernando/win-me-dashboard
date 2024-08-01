@@ -15,14 +15,15 @@ import useAllPromotionsList from "../../hooks/useAllPromotionsList";
 import Progress from "react-progress-2";
 import client from "../../GraphQL/ApolloClient";
 import ViewPromotionModel from "./ViewPromotionModel";
+import { GraphQLSuccess } from "types/GraphQLTypes";
 
 const { confirm } = Modal;
 
 function PromotionDataTable() {
   const history = useHistory();
-  const [viewModel, setViewModel] = useState<any>(false);
-  const [selectedID, setSelectedID] = useState<any>(false);
-  const [filterData, setFilterData] = useState<any>({
+  const [viewModel, setViewModel] = useState<boolean>(false);
+  const [selectedID, setSelectedID] = useState<boolean>(false);
+  const [filterData, setFilterData] = useState({
     page: 1,
     pageSize: 10,
     order: "DESC",
@@ -143,7 +144,7 @@ function PromotionDataTable() {
 
   const [deletePromotion] = useMutation(DELETE_PROMOTION, {
     onCompleted: (data) => {
-      if (data.deletePromotion.__typename === "PromotionDeleted") {
+      if (data.deletePromotion.__typename === GraphQLSuccess.PromotionDeleted) {
         message.success("Promotion deleted successfully");
         Progress.hide();
         client.resetStore();

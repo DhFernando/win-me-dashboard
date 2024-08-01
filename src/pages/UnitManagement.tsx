@@ -8,7 +8,7 @@ import { useBreadCrumb } from "../hooks/useBreadCrumb";
 
 export default function UnitManagement() {
   const location = useLocation();
-  const [visible, setVisible] = useState<any>(false);
+  const [visible, setVisible] = useState<boolean>(false);
   useBreadCrumb("Unit Management", location.pathname, "Unit Management");
 
   return (

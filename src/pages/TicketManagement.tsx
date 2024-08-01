@@ -1,12 +1,12 @@
 import { Button } from "antd";
-import React from "react";
 import { useLocation } from "react-router-dom";
 import "../assets/css/Dashboard.scss";
-import TicketDataTable from "../components/TicketManagement/TicketDataTable";
-import TicketDataTableBranch from "../components/TicketManagement/TicketDataTableBranch";
 import client from "../GraphQL/ApolloClient"; 
-import { useStore } from "../store";
 import { useBreadCrumb } from "../hooks/useBreadCrumb";
+import { useStore } from "store/useStore";
+import { UserRole } from "types/enums";
+import TicketDataTable from "components/TicketManagement/TicketDataTable";
+import TicketDataTableBranch from "components/TicketManagement/TicketDataTableBranch";
 
 export default function TicketManagement() {
   const location = useLocation();
@@ -27,7 +27,7 @@ export default function TicketManagement() {
             Refresh
           </Button>
         </div>
-        {profileData.role === "SUPER_ADMIN" || profileData.role === "ADMIN" ? (
+        {profileData.role === UserRole.SUPER_ADMIN || profileData.role === "ADMIN" ? (
           <TicketDataTable />
         ) : (
           <TicketDataTableBranch />

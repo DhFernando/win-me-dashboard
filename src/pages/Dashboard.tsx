@@ -1,7 +1,6 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import "../assets/css/Dashboard.scss";
-import useProfileData from "../hooks/useProfileData";
-import { useStore } from "../store";
+import useProfileData from "../hooks/useProfileData"; 
 import { useLocation } from "react-router-dom";
 import { useBreadCrumb } from "../hooks/useBreadCrumb";
 import Chart from "react-apexcharts";
@@ -10,6 +9,8 @@ import DashBoardStatistic from "../components/DashBoardWidgets/DashBoardStatisti
 import DashBoardStatisticBranch from "../components/DashBoardWidgets/DashBoardStatisticBranch";
 import DashBoardTicketDataTableBranch from "../components/TicketManagement/DashBoardTicketDataTableBranch";
 import { ApexOptions } from "apexcharts";
+import { useStore } from "store/useStore";
+import { UserRole } from "types/enums";
 
 const chartOptions: ApexOptions = {
   series: [
@@ -69,8 +70,8 @@ function Dashboard() {
     <div className="dashboard">
       {loggedData.length !== 0 && (
         <>
-          {loggedData.role === "SUPER_ADMIN" && <DashBoardStatistic />}
-          {loggedData.role === "USER" && <DashBoardStatisticBranch />}
+          {loggedData.role === UserRole.SUPER_ADMIN && <DashBoardStatistic />}
+          {loggedData.role === UserRole.USER && <DashBoardStatisticBranch />}
         </>
       )}
       <div className="section_row_chart">
@@ -85,8 +86,8 @@ function Dashboard() {
         <h1 className="section_title">Confirmed Tickets</h1>
         {loggedData.length !== 0 && (
           <>
-            {loggedData.role === "SUPER_ADMIN" && <DashBoardTicketDataTable />}
-            {loggedData.role === "USER" && <DashBoardTicketDataTableBranch />}
+            {loggedData.role === UserRole.SUPER_ADMIN && <DashBoardTicketDataTable />}
+            {loggedData.role === UserRole.USER && <DashBoardTicketDataTableBranch />}
           </>
         )}
       </div>

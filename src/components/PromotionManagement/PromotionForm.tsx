@@ -1,6 +1,5 @@
 import { Button, Form, Input, message, Select, DatePicker, Switch } from "antd";
-import React, { useEffect, useState } from "react";
-import { usePostDataStore } from "../../store";
+import React, { useEffect, useState } from "react"; 
 import ImagesSection from "./ImagesSection";
 import { CREATE_PROMOTION } from "../../GraphQL/Mutations";
 import { useMutation } from "@apollo/client";
@@ -12,6 +11,8 @@ import useAllPromotionsCategoryList from "../../hooks/useAllPromotionsCategoryLi
 import moment from "moment";
 import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
 import client from "../../GraphQL/ApolloClient";
+import { usePostDataStore } from "store/postDataStore";
+import { GraphQLSuccess } from "types/GraphQLTypes";
 
 const { Option } = Select;
 
@@ -19,7 +20,7 @@ export default function PromotionForm(props) {
   const [form] = Form.useForm();
   const setPostData = usePostDataStore((state) => state.setPostData);
   const postData = usePostDataStore((state) => state.postData);
-  const [switchStatus, setSwitchStatus] = useState<any>(false);
+  const [switchStatus, setSwitchStatus] = useState<boolean>(false);
 
   const companies = useCompanyList({ page: 0 });
   const allPromotionsCategoryList = useAllPromotionsCategoryList({
@@ -48,7 +49,7 @@ export default function PromotionForm(props) {
 
   const [createPromotion] = useMutation(CREATE_PROMOTION, {
     onCompleted: (data) => {
-      if (data.createPromotion.__typename === "PromotionCreated") {
+      if (data.createPromotion.__typename === GraphQLSuccess.PromotionCreated) {
         message.success("Promotion Created Successfully");
         props.setVisible();
         Progress.hide();

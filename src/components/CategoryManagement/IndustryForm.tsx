@@ -1,14 +1,13 @@
 import { Button, Form, Input, message } from "antd";
-import React, { useEffect } from "react";
-import {
-  useImagesStore,
-  usePostDataStore,
-  useRefreshDataTables,
-} from "../../store";
+import React, { useEffect } from "react"; 
 import ImagesProductSection from "./ImagesProductSection";
 import { CREATE_PRODUCT_CATEGORY } from "../../GraphQL/Mutations";
 import { useMutation } from "@apollo/client";
 import Progress from "react-progress-2";
+import { usePostDataStore } from "store/postDataStore";
+import { useImagesStore } from "store/imagesStore";
+import { useRefreshDataTables } from "store/refreshDataTables";
+import { GraphQLError, GraphQLSuccess } from "types/GraphQLTypes";
 
 export default function IndustryForm(props) {
   const ID = props.type === "New" ? null : props.id;
@@ -48,12 +47,12 @@ export default function IndustryForm(props) {
 
   const [createProductCategory] = useMutation(CREATE_PRODUCT_CATEGORY, {
     onCompleted: (data) => {
-      if (data.createProductCategory.__typename === "ProductCategoryCreated") {
+      if (data.createProductCategory.__typename === GraphQLSuccess.ProductCategoryCreated) {
         message.success("Category created successfully");
         setRefreshDataTables(!refreshDataTables);
         props.setVisible();
         Progress.hide();
-      } else if (data.createProductCategory.__typename === "DuplicateSlugError") {
+      } else if (data.createProductCategory.__typename === GraphQLError.DuplicateSlugError) {
         message.error('This slug is already used!');
         Progress.hide();
       }

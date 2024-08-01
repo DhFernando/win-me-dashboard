@@ -5,11 +5,13 @@ import React, { useEffect, useState } from "react";
 import {
   CREATE_PROMOTION_CATEGORY,
   UPDATE_PROMOTION_CATEGORY,
-} from "../../GraphQL/Mutations";
-import { useImagesStore, usePostDataStore } from "../../store";
+} from "../../GraphQL/Mutations"; 
 import ImageCategorySection from "./ImageCategorySection";
 import Progress from "react-progress-2";
 import client from "../../GraphQL/ApolloClient";
+import { useImagesStore } from "store/imagesStore";
+import { usePostDataStore } from "store/postDataStore";
+import { GraphQLSuccess } from "types/GraphQLTypes";
 
 export default function PromotionCategoryModel({
   visible,
@@ -22,7 +24,7 @@ export default function PromotionCategoryModel({
   const setImagesStore = useImagesStore((state) => state.setImagesStore);
   const imagesStore = useImagesStore((state) => state.imagesStore);
 
-  const [switchStatus, setSwitchStatus] = useState<any>(true);
+  const [switchStatus, setSwitchStatus] = useState<boolean>(true);
 
   const [form] = Form.useForm();
 
@@ -84,7 +86,7 @@ export default function PromotionCategoryModel({
   const [createPromotionCategory] = useMutation(CREATE_PROMOTION_CATEGORY, {
     onCompleted: (data) => {
       if (
-        data.createPromotionCategory.__typename === "PromotionCategoryCreated"
+        data.createPromotionCategory.__typename === GraphQLSuccess.PromotionCategoryCreated
       ) {
         message.success("Category created successfully");
         Progress.hide();
@@ -107,7 +109,7 @@ export default function PromotionCategoryModel({
   const [updatePromotionCategory] = useMutation(UPDATE_PROMOTION_CATEGORY, {
     onCompleted: (data) => {
       if (
-        data.updatePromotionCategory.__typename === "PromotionCategoryUpdated"
+        data.updatePromotionCategory.__typename === GraphQLSuccess.PromotionCategoryUpdated
       ) {
         message.success("Category updated successfully");
         Progress.hide();

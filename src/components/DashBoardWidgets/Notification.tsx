@@ -4,7 +4,7 @@ import React, { useContext, useEffect, useState } from "react";
 import client from "../../GraphQL/ApolloClient";
 import useTicketList from "../../hooks/useTicketList";
 import { SocketContext } from "../../socket";
-import { useStore } from "../../store";
+import { useStore } from "store/useStore";
 
 function Notification() {
   const socket = useContext(SocketContext);
@@ -49,7 +49,7 @@ function Notification() {
   return (
     <Badge
       size="small"
-      count={ticketList.length !== 0 ? ticketList.totalCount : 0}
+      count={ticketList?.nodes.length !== 0 ? ticketList?.totalCount : 0}
     >
       <BellOutlined />
     </Badge>

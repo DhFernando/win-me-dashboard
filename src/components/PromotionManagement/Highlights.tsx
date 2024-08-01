@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Input, Button } from "antd";
 import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
-import { usePostDataStore } from "../../store";
+import { usePostDataStore } from "store/postDataStore";
 
 function Highlights() {
   const setPostData = usePostDataStore((state) => state.setPostData);

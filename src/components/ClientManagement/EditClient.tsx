@@ -5,12 +5,15 @@ import Progress from "react-progress-2";
 import { useLocation } from "react-router-dom";
 import { UPDATE_COMPANY } from "../../GraphQL/Mutations";
 import { useBreadCrumb } from "../../hooks/useBreadCrumb";
-import useCompanyById from "../../hooks/useCompanyById";
-import { useCompanyAdmin, useImagesStore, useStore } from "../../store";
+import useCompanyById from "../../hooks/useCompanyById"; 
 import ImagesSection from "./ImagesSection";
 import { StepOne } from "./StepOne";
 import { StepThree } from "./StepThree";
 import { StepTwo } from "./StepTwo";
+import { useStore } from "store/useStore";
+import { useImagesStore } from "store/imagesStore";
+import { useCompanyAdmin } from "store/companyAdmin";
+import { GraphQLSuccess } from "types/GraphQLTypes";
 
 function EditClient(props) {
   const location = useLocation();
@@ -43,7 +46,7 @@ function EditClient(props) {
 
   const [updateCompany] = useMutation(UPDATE_COMPANY, {
     onCompleted: (data) => {
-      if (data.updateCompany.__typename === "CompanyUpdated") {
+      if (data.updateCompany.__typename === GraphQLSuccess.CompanyUpdated) {
         message.success("Company updated successfully");
         // setClientData(data.updateCompany.company);
         Progress.hide();

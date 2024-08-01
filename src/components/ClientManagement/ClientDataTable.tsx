@@ -16,6 +16,7 @@ import Highlighter from "react-highlight-words";
 import CompanyDefault from "../../assets/images/company-image.jpg";
 import { ColumnType } from "antd/lib/table";
 import { FilterDropdownProps } from "antd/lib/table/interface";
+import { GraphQLSuccess } from "types/GraphQLTypes";
 
 const { confirm } = Modal;
 
@@ -240,7 +241,7 @@ const getColumnSearchProps = (dataIndex: string) => ({
 
   const [updateProduct] = useMutation(UPDATE_COMPANY, {
     onCompleted: (data) => {
-      if (data.updateCompany.__typename === "CompanyUpdated") {
+      if (data.updateCompany.__typename === GraphQLSuccess.CompanyUpdated) {
         message.success("Category deleted successfully");
         Progress.hide();
       } else {

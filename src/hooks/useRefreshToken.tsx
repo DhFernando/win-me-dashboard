@@ -1,11 +1,11 @@
 import { useEffect } from "react";
 import { useMutation } from "@apollo/client";
-import { REFRESH_TOKEN } from "../GraphQL/Mutations";
-import { useStore } from "../store";
+import { REFRESH_TOKEN } from "../GraphQL/Mutations"; 
 import moment from "moment";
 import Progress from "react-progress-2";
 import { useHistory } from "react-router-dom";
 import { message } from "antd";
+import { useStore } from "store/useStore";
 
 // NOTE: This hook is used to refresh the access token when it expires and the user is still logged in to the application.
 function useRefreshToken(steps) {

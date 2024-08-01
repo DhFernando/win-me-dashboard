@@ -3,7 +3,12 @@ import { message } from "antd";
 import { useEffect, useState } from "react";
 import Progress from "react-progress-2";
 import { ALL_USERS } from "../GraphQL/Queries";
+import { User } from "types";
 
+export type AllUsersWithCount = {
+  nodes: User[],
+  totalCount: number
+}
 function useAllUserList(filterData) {
   const { loading, error, data } = useQuery(ALL_USERS, {
     variables: {
@@ -16,7 +21,7 @@ function useAllUserList(filterData) {
     },
     fetchPolicy: "no-cache",
   });
-  const [state, setState] = useState<any>([]);
+  const [state, setState] = useState<AllUsersWithCount>();
 
   useEffect(() => {
     const getData = () => {

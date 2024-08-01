@@ -1,17 +1,16 @@
 import { Button, Form, Input, message, Cascader } from "antd";
-import React, { useEffect } from "react";
-import {
-  useImagesStore,
-  usePostDataStore,
-  useRefreshDataTables,
-  useStore,
-} from "../../store";
+import { useEffect } from "react"; 
 import ImagesUploadSection from "./ImagesUploadSection";
 import KeyFeatures from "./KeyFeatures";
 import { CREATE_PRODUCT } from "../../GraphQL/Mutations";
 import { useMutation } from "@apollo/client";
 import Progress from "react-progress-2";
 import useProductsCategoryList from "../../hooks/useProductsCategoryList";
+import { useStore } from "store/useStore";
+import { useImagesStore } from "store/imagesStore";
+import { usePostDataStore } from "store/postDataStore";
+import { useRefreshDataTables } from "store/refreshDataTables";
+import { GraphQLSuccess } from "types/GraphQLTypes";
 const { TextArea } = Input;
 
 export default function ProductForm(props) {
@@ -55,7 +54,7 @@ export default function ProductForm(props) {
 
   const [createProduct] = useMutation(CREATE_PRODUCT, {
     onCompleted: (data) => {
-      if (data.createProduct.__typename === "ProductCreated") {
+      if (data.createProduct.__typename === GraphQLSuccess.ProductCreated) {
         message.success("Product Created Successfully");
         setRefreshDataTables(!refreshDataTables);
         props.setVisible();

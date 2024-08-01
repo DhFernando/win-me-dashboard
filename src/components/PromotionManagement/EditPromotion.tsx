@@ -3,11 +3,13 @@ import { useLocation } from "react-router-dom";
 import { Button, message, Popconfirm } from "antd";
 import PromotionForm from "./PromotionForm";
 import { useBreadCrumb } from "../../hooks/useBreadCrumb";
-import usePromotionById from "../../hooks/usePromotionById";
-import { useImagesStore, usePostDataStore } from "../../store";
+import usePromotionById from "../../hooks/usePromotionById"; 
 import Progress from "react-progress-2";
 import { useMutation } from "@apollo/client";
 import { UPDATE_PROMOTION } from "../../GraphQL/Mutations";
+import { useImagesStore } from "store/imagesStore";
+import { usePostDataStore } from "store/postDataStore";
+import { GraphQLSuccess } from "types/GraphQLTypes";
 
 function EditPromotion(props) {
   const location = useLocation();
@@ -73,7 +75,7 @@ function EditPromotion(props) {
 
   const [updatePromotion] = useMutation(UPDATE_PROMOTION, {
     onCompleted: (data) => {
-      if (data.updatePromotion.__typename === "PromotionUpdated") {
+      if (data.updatePromotion.__typename === GraphQLSuccess.PromotionUpdated) {
         message.success("Promotion updated successfully");
         Progress.hide();
       } else {

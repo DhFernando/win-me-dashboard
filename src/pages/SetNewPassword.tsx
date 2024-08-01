@@ -7,6 +7,7 @@ import { useHistory, Link } from "react-router-dom";
 import Progress from "react-progress-2";
 import { useMutation } from "@apollo/client";
 import { RESET_PASSWORD } from "../GraphQL/Mutations";
+import { GraphQLSuccess } from "types/GraphQLTypes";
 
 export default function SetNewPassword(props) {
   const sessionId = props.match.params.token;
@@ -32,7 +33,7 @@ export default function SetNewPassword(props) {
 
   const [resetPassword] = useMutation(RESET_PASSWORD, {
     onCompleted: (data) => {
-      if (data.resetPassword.__typename === "PasswordResetSuccess") {
+      if (data.resetPassword.__typename === GraphQLSuccess.PasswordResetSuccess) {
         message.success("Password changed successfully");
         Progress.hide();
         setResult({ result: "success" });

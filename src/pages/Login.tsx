@@ -6,10 +6,10 @@ import { Link, useHistory } from "react-router-dom";
 import Logo from "../assets/images/logo.png";
 import Auth from "../Auth";
 import client from "../GraphQL/ApolloClient";
-import { USER_LOGIN } from "../GraphQL/Mutations";
-import { useStore } from "../store";
+import { USER_LOGIN } from "../GraphQL/Mutations"; 
 import "./../assets/css/Common.scss";
 import "./../assets/css/Login.scss";
+import { useStore } from "store/useStore";
 
 export default function Login() {
   const [form] = Form.useForm();

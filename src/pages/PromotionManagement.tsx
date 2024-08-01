@@ -5,13 +5,13 @@ import "../assets/css/Dashboard.scss";
 import NewPromotionModel from "../components/PromotionManagement/NewPromotionModel";
 import PromotionDataTable from "../components/PromotionManagement/PromotionDataTable";
 import PromotionDataTableBranch from "../components/PromotionManagement/PromotionDataTableBranch";
-import { useBreadCrumb } from "../hooks/useBreadCrumb";
-import { useStore } from "../store";
+import { useBreadCrumb } from "../hooks/useBreadCrumb"; 
+import { useStore } from "store/useStore";
 
 export default function PromotionManagement() {
   const location = useLocation();
 
-  const [visible, setVisible] = useState<any>(false);
+  const [visible, setVisible] = useState<boolean>(false);
   useBreadCrumb(
     "Promotion Management",
     location.pathname,

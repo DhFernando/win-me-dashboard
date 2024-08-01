@@ -2,10 +2,10 @@ import React, { useEffect } from "react";
 import "../assets/css/Dashboard.scss";
 import SideMenu from "../components/SideBar/SideMenu";
 import { Switch, Route } from "react-router-dom";
-import Header from "../components/DashBoardWidgets/Header";
-import { useStore } from "../store";
+import Header from "../components/DashBoardWidgets/Header"; 
 import { routes } from "../routes";
 import { useMediaQuery } from "react-responsive";
+import { useStore } from "store/useStore";
 
 
 function DashboardRoutes(props) {

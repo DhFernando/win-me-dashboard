@@ -12,10 +12,11 @@ import {
 } from "antd";
 import React, { useEffect, useRef, useState } from "react";
 import { useMutation } from "@apollo/client";
-import { REPLY_TICKET } from "../../GraphQL/Mutations";
-import { useStore } from "../../store";
+import { REPLY_TICKET } from "../../GraphQL/Mutations"; 
 import TextArea, { TextAreaRef } from "antd/lib/input/TextArea";
 import Progress from "react-progress-2";
+import { useStore } from "store/useStore";
+import { GraphQLSuccess } from "types/GraphQLTypes";
 
 function ProductForm({
   initialData,
@@ -36,7 +37,7 @@ function ProductForm({
 
   const [replyTicket] = useMutation(REPLY_TICKET, {
     onCompleted: (data) => {
-      if (data.replyTicket.__typename === "TicketReplied") {
+      if (data.replyTicket.__typename === GraphQLSuccess.TicketReplied) {
         message.success("Reply Successfully");
         Progress.hide();
       } else {

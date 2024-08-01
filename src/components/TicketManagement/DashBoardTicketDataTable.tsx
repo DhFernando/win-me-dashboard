@@ -1,17 +1,20 @@
 import { EyeOutlined } from "@ant-design/icons";
 import { Avatar, Button, Table, Tag } from "antd";
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import useTicketList from "../../hooks/useTicketList";
 import Ticket_ICON from "../../assets/images/ticket.png";
 import moment from "moment";
 import { ColumnType } from "antd/lib/table";
-
+import { useLazyQuery } from "@apollo/client";
+import { TICKETS } from "GraphQL/Queries";
+import { ITicket, ITicketsWithCount } from "types";
+import { CircularProgress } from "@mui/material";
+ 
 function DashBoardTicketDataTable() {
   const history = useHistory();
 
-  const [tableDate, setTableDate] = useState<any>([]);
-  const [filterData, setFilterData] = useState<any>({
+  const [tableDate, setTableDate] = useState<ITicketsWithCount>();
+  const [filterData, setFilterData] = useState({
     page: 1,
     pageSize: 10,
     order: "DESC",
@@ -24,13 +27,36 @@ function DashBoardTicketDataTable() {
     toDate: null,
   });
 
-  const ticketList = useTicketList(filterData);
+  const [fetchTicketsWithCount, { loading, data }] = useLazyQuery(TICKETS);
 
+  // data load..
   useEffect(() => {
-    setTableDate(ticketList.nodes);
-  }, [ticketList]);
+    console.log('hello')
+    fetchTicketsWithCount({
+      variables: {
+        page: filterData.page === 0 ? filterData.page : filterData.page - 1,
+        pageSize: filterData.pageSize,
+        order: filterData.order,
+        sortBy: filterData.sortBy,
+        productCategoryId: filterData.productCategoryId,
+        productRequestId: filterData.productRequestId,
+        companyId: filterData.companyId,
+        status: filterData.status,
+        fromDate: filterData.fromDate,
+        toDate: filterData.toDate,
+      },
+      fetchPolicy: "no-cache",
+    }) 
+  }, [fetchTicketsWithCount, filterData])
 
-  const columns: ColumnType<any>[] = [
+  // set states
+  useEffect(() => {
+    if(data){
+      setTableDate(data.tickets);
+    }
+  }, [data]);
+
+  const columns: ColumnType<ITicket>[] = [
     {
       title: "",
       align: "center", // Correct type for align
@@ -90,13 +116,13 @@ function DashBoardTicketDataTable() {
           : "NA",
       width: 150,
     },
-    {
-      title: "Winner",
-      dataIndex: "winner",
-      sorter: (a, b) => a.winner.length - b.winner.length,
-      sortDirections: ["descend", "ascend"],
-      width: 180,
-    },
+    // {
+    //   title: "Winner",
+    //   dataIndex: "winner",
+    //   sorter: (a, b) => a.winner.length - b.winner.length,
+    //   sortDirections: ["descend", "ascend"],
+    //   width: 180,
+    // },
     {
       title: "Status",
       dataIndex: "status",
@@ -178,17 +204,21 @@ function DashBoardTicketDataTable() {
       width: 70,
     },
   ];
-
+ 
+  if(loading || !tableDate){
+    return <CircularProgress color="secondary" />
+  }
+  
   return (
     <Table
       columns={columns}
-      dataSource={tableDate}
+      dataSource={(tableDate as ITicketsWithCount).nodes}
       scroll={{ x: 1300 }}
       bordered
       pagination={{
         current: filterData.page,
         pageSize: filterData.pageSize,
-        total: ticketList.totalCount,
+        total: tableDate?.totalCount,
         onChange: (page, pageSize) => {
           setFilterData({
             ...filterData,

@@ -1,12 +1,12 @@
-import React from "react";
 import Logo from "../assets/images/logo.png";
 import "./../assets/css/Common.scss";
 import { Button, Form, message } from "antd";
 import { Input } from "antd";
 import { useHistory, Link } from "react-router-dom";
 import Progress from "react-progress-2";
-import { useMutation } from "@apollo/client";
-import { VERIFY_PASSWORD_RESET_REQUEST_OTP } from "../GraphQL/Mutations";
+import { useMutation } from "@apollo/client"; 
+import { VERIFY_PASSWORD_RESET_REQUEST_OTP } from "GraphQL/Mutations";
+import { GraphQLSuccess } from "types/GraphQLTypes";
 
 export default function CodeVerification(props) {
   const token = props.match.params.token;
@@ -34,8 +34,7 @@ export default function CodeVerification(props) {
     {
       onCompleted: (data) => {
         if (
-          data.verifyPasswordResetRequestOtp.__typename ===
-          "PasswordResetRequestVerification"
+          data.verifyPasswordResetRequestOtp.__typename === GraphQLSuccess.PasswordResetRequestVerification
         ) {
           message.success("OTP verified successfully");
           history.push(

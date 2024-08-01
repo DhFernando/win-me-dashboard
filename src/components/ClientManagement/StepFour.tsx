@@ -1,7 +1,7 @@
 import { Button } from "antd";
 import React from "react";
-import image from "../../assets/images/success_img.png";
-import { useRefreshDataTables } from "../../store";
+import image from "../../assets/images/success_img.png"; 
+import { useRefreshDataTables } from "store/refreshDataTables";
 
 export const StepFour = (props) => {
   const setRefreshDataTables = useRefreshDataTables((state) => state.setRefreshDataTables);

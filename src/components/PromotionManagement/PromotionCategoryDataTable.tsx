@@ -6,7 +6,7 @@ import PromotionCategoryModel from "./PromotionCategoryModel";
 import { ColumnType } from "antd/lib/table";
 
 function PromotionCategoryDataTable() {
-  const [visible, setVisible] = useState<any>(false);
+  const [visible, setVisible] = useState<boolean>(false);
   const [selectData, setSelectData] = useState<any>({});
 
   const [filterData, setFilterData] = useState<any>({

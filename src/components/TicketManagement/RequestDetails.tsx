@@ -1,11 +1,11 @@
 import { Form, Input, Modal } from "antd";
-import React, { useEffect } from "react";
-import { usePostDataStore } from "../../store";
+import React, { useEffect } from "react"; 
 import {
   materialRenderers,
   materialCells,
 } from "@jsonforms/material-renderers";
 import { JsonForms } from "@jsonforms/react";
+import { usePostDataStore } from "store/postDataStore";
 
 export default function RequestDetails({ visible, setVisible, formData }) {
   const setPostData = usePostDataStore((state) => state.setPostData);

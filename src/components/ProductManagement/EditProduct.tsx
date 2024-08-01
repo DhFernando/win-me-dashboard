@@ -1,17 +1,16 @@
 import React, { useEffect } from "react";
 import { Button, Popconfirm, message } from "antd";
 import ProductForm from "./ProductForm";
-import useProductById from "../../hooks/useProductById";
-import {
-  useBreadcrumbStore,
-  useImagesStore,
-  usePostDataStore,
-} from "../../store";
+import useProductById from "../../hooks/useProductById"; 
 import { useMutation } from "@apollo/client";
 import { UPDATE_PRODUCT } from "../../GraphQL/Mutations";
 import { useLocation } from "react-router-dom";
 import Progress from "react-progress-2";
 import moment from "moment";
+import { useImagesStore } from "store/imagesStore";
+import { usePostDataStore } from "store/postDataStore";
+import { useBreadcrumbStore } from "store/breadcrumbStore";
+import { GraphQLSuccess } from "types/GraphQLTypes";
 
 function EditProduct(props) {
   const location = useLocation();
@@ -100,7 +99,7 @@ function EditProduct(props) {
 
   const [updateProduct] = useMutation(UPDATE_PRODUCT, {
     onCompleted: (data) => {
-      if (data.updateProduct.__typename === "ProductUpdated") {
+      if (data.updateProduct.__typename === GraphQLSuccess.ProductUpdated) {
         message.success("Product updated successfully");
         Progress.hide();
       } else {

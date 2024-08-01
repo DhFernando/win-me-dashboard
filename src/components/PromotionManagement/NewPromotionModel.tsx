@@ -1,7 +1,8 @@
 import { Modal } from "antd";
-import React, { useEffect } from "react";
-import { useImagesStore, usePostDataStore } from "../../store";
+import React, { useEffect } from "react"; 
 import PromotionForm from "./PromotionForm";
+import { usePostDataStore } from "store/postDataStore";
+import { useImagesStore } from "store/imagesStore";
 export default function NewPromotionModel({ visible, setVisible, type }) {
   const setPostData = usePostDataStore((state) => state.setPostData);
   const setImagesStore = useImagesStore((state) => state.setImagesStore);

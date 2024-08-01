@@ -7,8 +7,7 @@ import {
 } from "@ant-design/icons";
 import { Avatar, Button, Input, Modal, Space, Table, Tag, message } from "antd";
 import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
-import { useBreadcrumbStore, useRefreshDataTables } from "../../store";
+import { useHistory } from "react-router-dom"; 
 import { useLocation } from "react-router-dom";
 import { useMutation } from "@apollo/client";
 import { UPDATE_PRODUCT_CATEGORY } from "../../GraphQL/Mutations";
@@ -18,6 +17,9 @@ import Progress from "react-progress-2";
 import Logo from "../../assets/images/logo.png";
 import { ColumnType } from "antd/lib/table";
 import { FilterDropdownProps } from "antd/lib/table/interface";
+import { useBreadcrumbStore } from "store/breadcrumbStore";
+import { useRefreshDataTables } from "store/refreshDataTables";
+import { GraphQLSuccess } from "types/GraphQLTypes";
 
 const { confirm } = Modal;
 
@@ -42,7 +44,7 @@ function SubCategoryDataTable(props) {
 
   useEffect(() => {
     const setValues = () => {
-      if (productCategoryById.length !== 0) {
+      if (productCategoryById) {
         let flag = true;
         let breadcrumbNew: any[] = [];
         for (let x = 0; x < breadcrumb.length; x++) {
@@ -272,7 +274,7 @@ function SubCategoryDataTable(props) {
 
   const [updateProduct] = useMutation(UPDATE_PRODUCT_CATEGORY, {
     onCompleted: (data) => {
-      if (data.updateProductCategory.__typename === "ProductCategoryUpdated") {
+      if (data.updateProductCategory.__typename === GraphQLSuccess.ProductCategoryUpdated) {
         message.success("Category deleted successfully");
         Progress.hide();
       } else {
@@ -300,19 +302,20 @@ function SubCategoryDataTable(props) {
           (item) => item.id === record.id
         );
 
-        updateProduct({
-          variables: {
-            productCategoryId: fullRecord.productCategoryId, // or a default value if null
-            id: fullRecord.id,
-            name: fullRecord.name,
-            description: fullRecord.description,
-            iconUrl: fullRecord.iconUrl || "",
-            coverUrl: fullRecord.coverUrl || "",
-            keyFeatures: fullRecord.keyFeatures || [], // set a default if null,
-            status: fullRecord.status.toUpperCase() || "ACTIVE",
-            active: false,
-          },
-        })
+        if(fullRecord){
+          updateProduct({
+            variables: {
+              // productCategoryId: fullRecord.productCategoryId, // or a default value if null
+              id: fullRecord.id,
+              name: fullRecord.name,
+              description: fullRecord.description,
+              iconUrl: fullRecord.iconUrl || "",
+              coverUrl: fullRecord.coverUrl || "",
+              keyFeatures: fullRecord.keyFeatures || [], // set a default if null,
+              status: fullRecord.status.toUpperCase() || "ACTIVE",
+              active: false,
+            },
+          })
           .then(() => {
             setTableDate((prev) =>
               prev.map((item) =>
@@ -323,6 +326,8 @@ function SubCategoryDataTable(props) {
           .catch((error) => {
             console.error("Error updating product category", error);
           });
+        }
+        
       },
       onCancel() {
         console.log("Cancel");
@@ -339,7 +344,7 @@ function SubCategoryDataTable(props) {
         current: 1,
         pageSize: 10,
         total:
-          productCategoryById.length !== 0
+          productCategoryById
             ? productCategoryById.productCategories.length
             : 0,
         showSizeChanger: true,

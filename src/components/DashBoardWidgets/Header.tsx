@@ -11,9 +11,10 @@ import { Link, useHistory } from "react-router-dom";
 import "../../assets/css/Header.scss";
 import Logo from "../../assets/images/logo.png";
 import client from "../../GraphQL/ApolloClient";
-import { REVOKE_REFRESH_TOKEN } from "../../GraphQL/Mutations";
-import { useBreadcrumbStore, useStore } from "../../store";
+import { REVOKE_REFRESH_TOKEN } from "../../GraphQL/Mutations"; 
 import Notification from "./Notification";
+import { useStore } from "store/useStore";
+import { useBreadcrumbStore } from "store/breadcrumbStore";
 
 function Header(props) {
   const history = useHistory();

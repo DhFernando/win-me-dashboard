@@ -3,6 +3,7 @@ import { message } from "antd";
 import { useEffect, useState } from "react";
 import Progress from "react-progress-2";
 import { PRODUCT_CATEGORY } from "../GraphQL/Queries";
+import { ICategory } from "types";
 
 function useProductCategoryById(Id, isChanged) {
   const { loading, error, data } = useQuery(PRODUCT_CATEGORY, {
@@ -12,7 +13,7 @@ function useProductCategoryById(Id, isChanged) {
     },
     fetchPolicy: "no-cache",
   });
-  const [state, setState] = useState<any>([]);
+  const [state, setState] = useState<ICategory>();
 
   useEffect(() => {
     const getData = () => {

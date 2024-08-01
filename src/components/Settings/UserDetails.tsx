@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import { Input, Button, Form, message } from "antd"; 
-import { useStore } from "../../store";
+import { Input, Button, Form, message } from "antd";  
 import Progress from "react-progress-2";
 import { useMutation } from "@apollo/client";
 import { UPDATE_USER, UPDATE_USER_AVATAR } from "../../GraphQL/Mutations";
@@ -10,6 +9,8 @@ import { DeleteOutlined, UploadOutlined } from "@ant-design/icons";
 import SparkMD5 from "spark-md5";
 import axios from "axios";
 import { useBreadCrumb } from "../../hooks/useBreadCrumb";
+import { useStore } from "store/useStore";
+import { GraphQLSuccess } from "types/GraphQLTypes";
 
 function UserDetails() {
   const [form] = Form.useForm();
@@ -54,7 +55,7 @@ function UserDetails() {
 
   const [updateUser] = useMutation(UPDATE_USER, {
     onCompleted: (data) => {
-      if (data.updateUser.__typename === "UserUpdated") {
+      if (data.updateUser.__typename ===  GraphQLSuccess.UserUpdated) {
         message.success("User account updated successfully");
         setProfileData({
           ...profileData,
@@ -118,7 +119,7 @@ function UserDetails() {
 
   const [updateUserAvatar] = useMutation(UPDATE_USER_AVATAR, {
     onCompleted: (data) => {
-      if (data.updateUserAvatar.__typename === "UserAvatarUpdated") {
+      if (data.updateUserAvatar.__typename === GraphQLSuccess.UserAvatarUpdated) {
         // message.success("User avatar updated successfully");
         uploadS3(
           data.updateUserAvatar.presignedUrl.presignedUrl,

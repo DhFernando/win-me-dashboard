@@ -8,7 +8,7 @@ import { useBreadCrumb } from "../hooks/useBreadCrumb";
 
 export default function ProductManagement() {
   const location = useLocation();
-  const [visible, setVisible] = useState<any>(false);
+  const [visible, setVisible] = useState<boolean>(false);
   useBreadCrumb("Product Management", location.pathname, "Product Management");
 
   return (

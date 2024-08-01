@@ -9,7 +9,7 @@ import { useBreadCrumb } from "../hooks/useBreadCrumb";
 export default function PromotionCategory() {
   const location = useLocation();
 
-  const [visible, setVisible] = useState<any>(false);
+  const [visible, setVisible] = useState<boolean>(false);
   useBreadCrumb("Promotion Category", location.pathname,"", "add");
 
   return (

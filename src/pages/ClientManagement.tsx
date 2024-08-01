@@ -1,14 +1,14 @@
 import { Button } from "antd";
-import React, { useState } from "react";
+import { useState } from "react";
 import { useLocation } from 'react-router-dom';
 import "../assets/css/Dashboard.scss";
-import ClientDataTable from "../components/ClientManagement/ClientDataTable";
-import NewClientModel from "../components/ClientManagement/NewClientModel"; 
-import { useBreadCrumb } from "../hooks/useBreadCrumb";
+import NewClientModel from "components/ClientManagement/NewClientModel";
+import ClientDataTable from "components/ClientManagement/ClientDataTable";
+import { useBreadCrumb } from "hooks/useBreadCrumb";
 
 export default function ClientManagement() {
   const location = useLocation();
-  const [visible, setVisible] = useState<any>(false);
+  const [visible, setVisible] = useState<boolean>(false);
   useBreadCrumb("Client Management", location.pathname ,"Client Management");
   
   return (

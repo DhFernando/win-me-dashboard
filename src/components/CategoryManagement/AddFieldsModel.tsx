@@ -1,11 +1,9 @@
 import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
 import { Button, Form, Input, message, Modal, Select, Switch } from "antd";
-import React, { useEffect } from "react";
-import {
-  useRequestDataTableStore,
-  useResponseDataTableStore,
-} from "../../store";
+import  { useEffect } from "react"; 
 import OptionFields from "./OptionFields";
+import { useRequestDataTableStore } from "store/requestDataTableStore";
+import { useResponseDataTableStore } from "store/responseDataTableStore";
 
 const { Option } = Select;
 

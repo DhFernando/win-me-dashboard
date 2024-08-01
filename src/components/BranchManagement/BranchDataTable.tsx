@@ -1,16 +1,10 @@
 import { EditOutlined } from "@ant-design/icons";  
 import { Avatar, Button, Table, Tag } from "antd";
 import { ColumnType } from "antd/lib/table";
-import React, { useState } from "react";
+import { useState } from "react";
 import { useHistory } from "react-router-dom";
-// import useTicketList from "../../hooks/useTicketList";
-// import moment from "moment";
-// import { useRefreshDataTables } from "../../store";
 
 function BranchDataTable() {
-  // const refreshDataTables = useRefreshDataTables(
-  //   (state) => state.refreshDataTables
-  // );
 
   const history = useHistory();
  

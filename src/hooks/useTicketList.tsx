@@ -1,8 +1,9 @@
 import { useQuery } from "@apollo/client";
 import { message } from "antd";
+import { TICKETS } from "GraphQL/Queries";
 import { useEffect, useState } from "react";
-import Progress from "react-progress-2";
-import { TICKETS } from "../GraphQL/Queries";
+import Progress from "react-progress-2"; 
+import { ITicketsWithCount } from "types";
 
 function useTicketList(filterData) {
   const { loading, error, data } = useQuery(TICKETS, {
@@ -19,7 +20,7 @@ function useTicketList(filterData) {
       toDate: filterData.toDate,
     },
   });
-  const [state, setState] = useState<any>([]);
+  const [state, setState] = useState<ITicketsWithCount>();
 
   useEffect(() => {
     const getData = () => {

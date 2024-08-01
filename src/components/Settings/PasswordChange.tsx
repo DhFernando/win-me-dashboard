@@ -3,6 +3,7 @@ import { Button, Form, Input, message } from "antd";
 import React, { useState } from "react";
 import Progress from "react-progress-2";
 import { CHANGE_USER_PASSWORD } from "../../GraphQL/Mutations";
+import { GraphQLSuccess } from "types/GraphQLTypes";
 
 function PasswordChange() {
   const [form] = Form.useForm();
@@ -26,7 +27,7 @@ function PasswordChange() {
 
   const [changeUserPassword] = useMutation(CHANGE_USER_PASSWORD, {
     onCompleted: (data) => {
-      if (data.changeUserPassword.__typename === "PasswordChanged") {
+      if (data.changeUserPassword.__typename === GraphQLSuccess.PasswordChanged) {
         message.success("Password changed successfully");
         Progress.hide();
         setResult({ result: "success" });

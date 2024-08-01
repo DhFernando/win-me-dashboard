@@ -1,16 +1,16 @@
 import { EyeOutlined } from "@ant-design/icons";
 import { Button, Table, Tag } from "antd";
 import moment from "moment";
-import React, { useState } from "react";
+import { useState } from "react";
 import useAllPromotionsCompanyList from "../../hooks/useAllPromotionsCompanyList";
-import { useStore } from "../../store";
 import ViewPromotionModel from "./ViewPromotionModel";
 import { ColumnType } from "antd/lib/table";
+import { useStore } from "store/useStore";
 
 function PromotionDataTableBranch() {
   const profileData = useStore((state) => state.profileData);
-  const [viewModel, setViewModel] = useState<any>(false);
-  const [selectedID, setSelectedID] = useState<any>(false);
+  const [viewModel, setViewModel] = useState<boolean>(false);
+  const [selectedID, setSelectedID] = useState<boolean>(false);
   const [filterData, setFilterData] = useState<any>({
     page: 1,
     pageSize: 10,

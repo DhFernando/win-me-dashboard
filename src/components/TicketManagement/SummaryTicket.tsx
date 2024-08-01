@@ -22,7 +22,7 @@ export default function SummaryTicket({
 }) {
   const ticketById = useTicketById(ticketId);
   const [form] = Form.useForm();
-  const [switchStatus, setSwichStatus] = useState<any>(false);
+  const [switchStatus, setSwichStatus] = useState<boolean>(false);
 
   const closeDeal = () => {
     if (switchStatus) {
@@ -64,7 +64,7 @@ export default function SummaryTicket({
 
   return (
     <Modal
-      title={`Contact - ${ticketById.length !== 0 ? ticketById.referenceId : ""
+      title={`Contact - ${ticketById ? ticketById.referenceId : ""
         }`}
       centered
       visible={visible}
@@ -77,7 +77,7 @@ export default function SummaryTicket({
           <CheckCircleTwoTone twoToneColor="#52c41a" />
           Request Details |<span>Details about the request</span>
         </p>
-        {ticketById.length !== 0 && (
+        {ticketById && (
           <JsonForms
             schema={JSON.parse(
               ticketById.productCategory.productRequestForm.requestFormSchema
@@ -97,7 +97,7 @@ export default function SummaryTicket({
           <CheckCircleTwoTone twoToneColor="#52c41a" />
           Add Your Response |<span>Details about the response</span>
         </p>
-        {ticketById.length !== 0 && (
+        {ticketById && (
           <JsonForms
             schema={JSON.parse(ticketById.productCategory.productRequestForm.responseFormSchema)}
             uischema={JSON.parse(ticketById.productCategory.productRequestForm.responseFormUiSchema)}
@@ -116,7 +116,7 @@ export default function SummaryTicket({
           <CheckCircleTwoTone twoToneColor="#52c41a" />
           User Details |<span>Details about the user</span>
         </p>
-        {ticketById.length !== 0 && ticketById?.status === "NO_RESPONSE" ? <></> : <>
+        {ticketById && ticketById?.status === "NO_RESPONSE" ? <></> : <>
           <Form autoComplete="off" form={form}>
             <div className="step_two_colum">
               <Form.Item className="step_input" name="name">

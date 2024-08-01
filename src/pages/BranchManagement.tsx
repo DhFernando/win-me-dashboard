@@ -8,7 +8,7 @@ import { useBreadCrumb } from "../hooks/useBreadCrumb";
 
 export default function BranchManagement() {
   const location = useLocation();
-  const [visible, setVisible] = useState<any>(false);
+  const [visible, setVisible] = useState<boolean>(false);
   useBreadCrumb("Branch Management", location.pathname, "Branch Management");
 
   return (

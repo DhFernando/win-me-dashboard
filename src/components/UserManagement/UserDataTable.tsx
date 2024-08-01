@@ -6,7 +6,7 @@ import {
 import { Avatar, Button, Modal, Table, Tag, message } from "antd";
 import { useState } from "react";
 import moment from "moment";
-import useAllUserList from "../../hooks/useAllUserList";
+import useAllUserList, { AllUsersWithCount } from "../../hooks/useAllUserList";
 import Progress from "react-progress-2";
 import { useMutation } from "@apollo/client";
 import client from "../../GraphQL/ApolloClient";
@@ -15,19 +15,22 @@ import {
   DEACTIVATE_USER_ACCOUNT,
 } from "../../GraphQL/Mutations";
 import { ColumnType } from 'antd/es/table';
+import { GraphQLSuccess } from "types/GraphQLTypes";
+import { CircularProgress } from "@mui/material";
+import { User } from "types";
 
 const { confirm } = Modal;
 
-interface User {
-  id: string;
-  avatarUrl?: string;
-  name: string;
-  email: string;
-  createdAt: string;
-  phone?: string;
-  companyBranchRoles?: { role: string }[];
-  verified: boolean;
-}
+// interface User {
+//   id: string;
+//   avatarUrl?: string;
+//   name: string;
+//   email: string;
+//   createdAt: string;
+//   phone?: string;
+//   companyBranchRoles?: { role: string }[];
+//   verified: boolean;
+// }
 
 function UserDataTable() {
   const [filterData, setFilterData] = useState<any>({
@@ -166,7 +169,7 @@ function UserDataTable() {
 
   const [activateUserAccount] = useMutation(ACTIVATE_USER_ACCOUNT, {
     onCompleted: (data) => {
-      if (data.activateUserAccount.__typename === "UserUpdated") {
+      if (data.activateUserAccount.__typename === GraphQLSuccess.UserUpdated) {
         message.success("User account activated successfully");
         Progress.hide();
         client.resetStore();
@@ -184,7 +187,7 @@ function UserDataTable() {
 
   const [deactivateUserAccount] = useMutation(DEACTIVATE_USER_ACCOUNT, {
     onCompleted: (data) => {
-      if (data.deactivateUserAccount.__typename === "UserUpdated") {
+      if (data.deactivateUserAccount.__typename === GraphQLSuccess.UserUpdated) {
         message.success("User account deactivated successfully");
         Progress.hide();
         client.resetStore();
@@ -200,10 +203,13 @@ function UserDataTable() {
     fetchPolicy: "no-cache",
   });
 
+  if(!allUserList){
+    return <CircularProgress color="secondary"/>
+  }
   return (
     <Table
       columns={columns}
-      dataSource={allUserList.nodes}
+      dataSource={(allUserList as AllUsersWithCount).nodes}
       scroll={{ x: 1000 }}
       bordered
       pagination={{

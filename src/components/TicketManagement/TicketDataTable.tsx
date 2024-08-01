@@ -6,28 +6,9 @@ import useTicketList from "../../hooks/useTicketList";
 import Ticket_ICON from "../../assets/images/ticket.png";
 import moment from "moment";
 import { ColumnType } from "antd/es/table/interface";
+import { ITicket } from "types";
 
 // Define TypeScript interfaces for ticket and filter data
-interface Ticket {
-  id: string;
-  referenceId: string;
-  productCategory: {
-    name: string;
-  };
-  productRequest: {
-    user: {
-      firstName: string;
-    };
-    maxUserResponseTimeExpiresAt: string;
-    tickets: {
-      nodes: any[];
-    };
-  };
-  createdAt: string;
-  winner: string;
-  status: string;
-}
-
 interface FilterData {
   page: number;
   pageSize: number;
@@ -44,7 +25,7 @@ interface FilterData {
 function TicketDataTable() {
   const history = useHistory();
 
-  const [tableData, setTableData] = useState<Ticket[]>([]);
+  const [tableData, setTableData] = useState<ITicket[]>([]);
   const [filterData, setFilterData] = useState<FilterData>({
     page: 1,
     pageSize: 10,
@@ -61,10 +42,13 @@ function TicketDataTable() {
   const ticketList = useTicketList(filterData);
 
   useEffect(() => {
-    setTableData(ticketList?.nodes || []);
+    if(ticketList){
+      setTableData(ticketList?.nodes || []);
+    }
+    
   }, [ticketList]);
 
-  const columns: ColumnType<Ticket>[] = [
+  const columns: ColumnType<ITicket>[] = [
     {
       title: "",
       align: "center", // Correct type for align
@@ -78,50 +62,50 @@ function TicketDataTable() {
     },
     {
       title: "Ticket",
-      sorter: (a: Ticket, b: Ticket) =>
+      sorter: (a: ITicket, b: ITicket) =>
         a.productCategory.name.localeCompare(b.productCategory.name),
-      render: (record: Ticket) => record.productCategory.name,
+      render: (record: ITicket) => record.productCategory.name,
       width: 150,
     },
     {
       title: "Ticket ID",
       dataIndex: "referenceId",
-      sorter: (a: Ticket, b: Ticket) => a.referenceId.localeCompare(b.referenceId),
+      sorter: (a: ITicket, b: ITicket) => a.referenceId.localeCompare(b.referenceId),
       width: 200,
     },
     {
       title: "User",
-      sorter: (a: Ticket, b: Ticket) =>
+      sorter: (a: ITicket, b: ITicket) =>
         a.productRequest.user.firstName.localeCompare(b.productRequest.user.firstName),
-      render: (record: Ticket) => record.productRequest.user.firstName || "NA",
+      render: (record: ITicket) => record.productRequest.user.firstName || "NA",
       width: 150,
     },
     {
       title: "Created Date",
-      sorter: (a: Ticket, b: Ticket) =>
+      sorter: (a: ITicket, b: ITicket) =>
         moment(a.createdAt).unix() - moment(b.createdAt).unix(),
-      render: (record: Ticket) =>
+      render: (record: ITicket) =>
         record.createdAt ? moment(record.createdAt).format("YYYY-MM-DD h:mm:ss a") : "NA",
       width: 180,
     },
     {
       title: "Closed Tickets",
-      render: (record: Ticket) =>
+      render: (record: ITicket) =>
         record.productRequest ? moment(record.productRequest.maxUserResponseTimeExpiresAt).format("YYYY-MM-DD h:mm:ss a") : "NA",
       width: 180,
     },
     {
       title: "Request Count",
-      render: (record: Ticket) =>
+      render: (record: ITicket) =>
         record.productRequest ? record.productRequest.tickets.nodes.length : "NA",
       width: 150,
     },
-    {
-      title: "Winner",
-      dataIndex: "winner",
-      sorter: (a: Ticket, b: Ticket) => a.winner.localeCompare(b.winner),
-      width: 180,
-    },
+    // {
+    //   title: "Winner",
+    //   dataIndex: "winner",
+    //   sorter: (a: ITicket, b: ITicket) => a.winner.localeCompare(b.winner),
+    //   width: 180,
+    // },
     {
       title: "Status",
       dataIndex: "status",
@@ -142,12 +126,12 @@ function TicketDataTable() {
           </Tag>
         );
       },
-      sorter: (a: Ticket, b: Ticket) => a.status.localeCompare(b.status),
+      sorter: (a: ITicket, b: ITicket) => a.status.localeCompare(b.status),
       width: 220,
     },
     {
       title: "Action",
-      render: (text: any, record: Ticket) => (
+      render: (text: any, record: ITicket) => (
         <Button
           className="view_button"
           shape="circle"
@@ -169,7 +153,7 @@ function TicketDataTable() {
       pagination={{
         current: filterData.page,
         pageSize: filterData.pageSize,
-        total: ticketList.totalCount || 0,
+        total: ticketList?.totalCount || 0,
         onChange: (page, pageSize) => {
           setFilterData((prevFilter) => ({
             ...prevFilter,

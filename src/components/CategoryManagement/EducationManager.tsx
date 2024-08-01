@@ -1,6 +1,6 @@
 import { Box, FormControl, FormControlLabel, FormGroup, InputLabel, MenuItem, Select, Switch } from "@mui/material";
 import { Button } from "antd";
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import ReactQuill from 'react-quill'
 import 'react-quill/dist/quill.snow.css';
 import { GET_EDUCATION_BY_PRODUCT_CATEGORY_ID, GET_EDUCATION_STATE_BY_CATEGORY_ID } from "../../GraphQL/Queries";
@@ -29,11 +29,11 @@ const useStyles = makeStyles({
 //   ARCHIVED = 'ARCHIVED',
 // }
 function EducationManager() { 
-  const [value, setValue] = useState<any>("");
-  const [lastUpdate, setLastUpdate] = useState<any>(null);
-  const [shoudPublish, setShouldPublish] = useState<any>(true);
-  const [shoudHideEducation, setHideEducation] = useState<any>(false);
-  const [language, setLanguage] = useState<any>(1);
+  const [value, setValue] = useState<string>("");
+  const [lastUpdate, setLastUpdate] = useState<Date | null>(null);
+  const [shoudPublish, setShouldPublish] = useState<boolean>(true);
+  const [shoudHideEducation, setHideEducation] = useState<boolean>(false);
+  const [language, setLanguage] = useState<number>(1);
   const { id } = useParams(); 
   
   const [getEducation, { loading: queryLoading, error: queryError, data: queryData }] = useLazyQuery(GET_EDUCATION_BY_PRODUCT_CATEGORY_ID, {
@@ -75,9 +75,9 @@ function EducationManager() {
 
 
   useEffect(() => {
-    if (queryData?.getEducationByProductCategoryId?.content) {
-      setValue(queryData?.getEducationByProductCategoryId?.content);
-      setLastUpdate(queryData?.getEducationByProductCategoryId?.updatedAt);
+    if (queryData?.getEducationByProductCategoryId.content) {
+      setValue(queryData?.getEducationByProductCategoryId.content);
+      setLastUpdate(queryData?.getEducationByProductCategoryId.updatedAt);
       setShouldPublish(queryData?.getEducationByProductCategoryId?.status === 'PUBLISHED' ? true : false)
     }
     if(queryData?.getEducationByProductCategoryId === null){
@@ -157,7 +157,7 @@ function EducationManager() {
         marginBottom: '10px'
       }}> 
         <Box>
-          Last Update: {new Date(lastUpdate).toLocaleDateString('en-US', {
+          Last Update: {new Date(lastUpdate as Date).toLocaleDateString('en-US', {
                           year: 'numeric',
                           month: 'long',
                           day: 'numeric',
@@ -193,7 +193,7 @@ function EducationManager() {
               id="demo-simple-select"
               value={language}
               label="Language"
-              onChange={(e) => setLanguage(e.target.value)}
+              onChange={(e) => setLanguage(e.target.value as number)}
             >
               <MenuItem value={1}>English</MenuItem>
               <MenuItem value={2}>Sinhala</MenuItem>

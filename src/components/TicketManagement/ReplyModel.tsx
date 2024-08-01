@@ -23,7 +23,7 @@ export default function ReplyModel({
   const ticketById = useTicketById(ticketId);
 
   const findReplyData = (productId) => {
-    const reply = ticketById.replies.find(
+    const reply = ticketById?.replies.find(
       (reply) => reply.product.id === productId
     );
     return reply ? JSON.parse(reply.replyData) : {};
@@ -36,7 +36,7 @@ export default function ReplyModel({
   return (
     <Modal
       title={`Reply to ${
-        ticketById.length !== 0 ? ticketById.referenceId : ""
+        ticketById ? ticketById.referenceId : ""
       }`}
       centered
       visible={visible}
@@ -45,7 +45,7 @@ export default function ReplyModel({
       width={700}
     >
       <div className="model_body">
-        {ticketById.length !== 0 && (
+        {ticketById && (
           <CountDownTimer
             targetDate={moment(
               ticketById.productRequest.maxCompanyResponseTimeExpiresAt

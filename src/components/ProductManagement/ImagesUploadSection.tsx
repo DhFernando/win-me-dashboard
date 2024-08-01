@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from "react";
-import { useImagesStore, usePostDataStore } from "../../store";
+import React, { useEffect, useState } from "react"; 
 import ImageUploadCover from "../Model/ImageUploadCover";
 import ImageUploadProfile from "../Model/ImageUploadProfile";
+import { useImagesStore } from "store/imagesStore";
+import { usePostDataStore } from "store/postDataStore";
 // import ImageUploadModel from "../Model/ImageUploadModel";
 
 function ImagesUploadSection() {
-  const [visibleModel, setVisibleModel] = useState<any>(false);
-  const [visibleModelLogo, setVisibleModelLogo] = useState<any>(false);
+  const [visibleModel, setVisibleModel] = useState<boolean>(false);
+  const [visibleModelLogo, setVisibleModelLogo] = useState<boolean>(false);
   const imagesStore = useImagesStore((state) => state.imagesStore);
   const setPostData = usePostDataStore((state) => state.setPostData);
   const postData = usePostDataStore((state) => state.postData);

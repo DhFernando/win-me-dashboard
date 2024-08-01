@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import useProductsList from "../../hooks/useProductsList";
-import useTicketList from "../../hooks/useTicketList";
-import { useStore } from "../../store";
+import useTicketList from "../../hooks/useTicketList"; 
 import DashBoardBox from "./DashBoardBox";
+import { useStore } from "store/useStore";
 
 const DashBoardStatisticBranch = () => {
   const profileData = useStore((state) => state.profileData);

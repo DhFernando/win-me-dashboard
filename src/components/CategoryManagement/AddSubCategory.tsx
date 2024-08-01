@@ -4,7 +4,7 @@ import SubCategoryDataTable from "./SubCategoryDataTable";
 import NewCategoryModel from "./NewCategoryModel";
 
 function AddSubCategory(props) {
-  const [visible, setVisible] = useState<any>(false);
+  const [visible, setVisible] = useState<boolean>(false);
   return (
     <div className="dashboard">
       <div className="section_row">

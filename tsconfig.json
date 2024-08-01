@@ -19,7 +19,11 @@
     ],
     "allowJs": true,
     "allowSyntheticDefaultImports": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+    "baseUrl": "./src",
+    "paths": {
+      "@/*": ["src/*"] 
+    }
   },
   "include": [
     "src/**/*"

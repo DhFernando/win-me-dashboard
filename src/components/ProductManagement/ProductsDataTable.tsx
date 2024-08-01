@@ -8,8 +8,7 @@ import {
 import { Avatar, Button, Input, Modal, Space, Table, Tag, message } from "antd";
 import React, { useState } from "react";
 import Highlighter from "react-highlight-words";
-import { useHistory } from "react-router-dom";
-import { useRefreshDataTables, useStore } from "../../store";
+import { useHistory } from "react-router-dom"; 
 import useProductsList from "../../hooks/useProductsList";
 import ViewProductModel from "./ViewProductModel";
 import { useMutation } from "@apollo/client";
@@ -18,6 +17,9 @@ import Progress from "react-progress-2";
 import Logo from "../../assets/images/logo.png";
 import { ColumnType } from "antd/lib/table";
 import { FilterDropdownProps } from "antd/lib/table/interface";
+import { useStore } from "store/useStore";
+import { useRefreshDataTables } from "store/refreshDataTables";
+import { GraphQLSuccess } from "types/GraphQLTypes";
 
 const { confirm } = Modal;
 
@@ -26,8 +28,8 @@ function ProductsDataTable() {
   const refreshDataTables = useRefreshDataTables(
     (state) => state.refreshDataTables
   );
-  const [viewModel, setViewModel] = useState<any>(false);
-  const [selectedID, setSelectedID] = useState<any>(false);
+  const [viewModel, setViewModel] = useState<boolean>(false);
+  const [selectedID, setSelectedID] = useState<boolean>(false);
   const profileData = useStore((state) => state.profileData);
   const [state, setState] = useState<any>({
     searchText: "",
@@ -266,7 +268,7 @@ const getColumnSearchProps = (dataIndex: string) => ({
 
   const [deleteProduct] = useMutation(DELETE_PRODUCT, {
     onCompleted: (data) => {
-      if (data.deleteProduct.__typename === "ProductDeleted") {
+      if (data.deleteProduct.__typename === GraphQLSuccess.ProductDeleted) {
         message.success("Product Deleted Successfully");
         setRefreshDataTables(!refreshDataTables);
         Progress.hide();

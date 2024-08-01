@@ -2,8 +2,8 @@ import React, { useEffect } from "react";
 import logo from "../../assets/images/logo.png";
 import "../../assets/css/MenuSideBar.scss";
 import MenuItem from "./MenuItem";
-import { menuItems } from "./MenuItemRoutes";
-import { useStore } from "../../store";
+import { menuItems } from "./MenuItemRoutes"; 
+import { useStore } from "store/useStore";
 
 const SideMenu = () => {
   const activeSideMenu = useStore((state) => state.activeSideMenu);

@@ -2,7 +2,7 @@ import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
 import { useMutation } from "@apollo/client";
 import { Button, message, Popconfirm, Switch, TimePicker } from "antd";
 import moment from "moment";
-import React, { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Progress from "react-progress-2";
 import { useLocation } from "react-router-dom";
 import {
@@ -10,18 +10,18 @@ import {
   UPSERT_PRODUCT_REQUEST_FORM,
 } from "../../GraphQL/Mutations";
 import useProductCategoryById from "../../hooks/useProductCategoryById";
-import {
-  useBreadcrumbStore,
-  useImagesStore,
-  usePostDataStore,
-  useRequestDataTableStore,
-  useResponseDataTableStore,
-} from "../../store";
 import AddFieldsModel from "./AddFieldsModel";
 import AddRequestFields from "./AddRequestFields";
 import AddResponseFields from "./AddResponseFields";
 import IndustryForm from "./IndustryForm";
 import { Prompt } from "react-router";
+import { useBreadcrumbStore } from "store/breadcrumbStore";
+import { useImagesStore } from "store/imagesStore";
+import { usePostDataStore } from "store/postDataStore";
+import { useRequestDataTableStore } from "store/requestDataTableStore";
+import { useResponseDataTableStore } from "store/responseDataTableStore";
+import { GraphQLError, GraphQLSuccess } from "types/GraphQLTypes";
+import dayjs from 'dayjs';
 
 const format = "HH:mm";
 function EditCategory(props) {
@@ -38,16 +38,15 @@ function EditCategory(props) {
   const setBreadcrumb = useBreadcrumbStore((state) => state.setBreadcrumb);
   const breadcrumb = useBreadcrumbStore((state) => state.breadcrumb);
 
-  const [visible, setVisible] = useState<any>(false);
-  const [isUnSaved, setIsUnSaved] = useState<any>(false);
+  const [visible, setVisible] = useState<boolean>(false);
+  const [isUnSaved, setIsUnSaved] = useState<boolean>(false);
   const [modelType, setModelType] = useState<any>("");
 
   // mutations
   const [upsertProductRequestForm] = useMutation(UPSERT_PRODUCT_REQUEST_FORM, {
     onCompleted: (data) => {
       if (
-        data.upsertProductRequestForm.__typename ===
-        "ProductRequestFormUpserted"
+        data.upsertProductRequestForm.__typename ===GraphQLSuccess.ProductRequestFormUpserted
       ) {
         message.success("Request form updated successfully");
         Progress.hide();
@@ -65,7 +64,7 @@ function EditCategory(props) {
 
   const [updateProductCategory] = useMutation(UPDATE_PRODUCT_CATEGORY, {
     onCompleted: (data) => {
-      if (data.updateProductCategory.__typename === "ProductCategoryUpdated") {
+      if (data.updateProductCategory.__typename === GraphQLSuccess.ProductCategoryUpdated) {
         message.success("Category updated successfully");
         Progress.hide();
         // if (postData.isProductRequestForm) {
@@ -77,7 +76,7 @@ function EditCategory(props) {
             },
           });
         // }
-      } else if(data.updateProductCategory.__typename === "DuplicateSlugError"){
+      } else if(data.updateProductCategory.__typename === GraphQLError.DuplicateSlugError){
         message.error("This slug is used in another");
       } else {
         message.error(data.updateProductCategory.message);
@@ -122,9 +121,9 @@ function EditCategory(props) {
   });
 
   useEffect(() => {
-    console.log('productCategoryById.productRequestForm_____', productCategoryById.productRequestForm)
+    console.log('productCategoryById.productRequestForm_____', productCategoryById?.productRequestForm)
     const setValues = () => {
-      if (productCategoryById.length !== 0) {
+      if (productCategoryById) {
         let flag = true;
         let breadcrumbNew: any = [];
         for (let x = 0; x < breadcrumb.length; x++) {
@@ -149,17 +148,17 @@ function EditCategory(props) {
         }
         setPostData({
           ...postData,
-          id: productCategoryById.id,
-          name: productCategoryById.name,
-          description: productCategoryById.description,
-          price: productCategoryById.price,
-          iconUrl: productCategoryById.iconUrl,
-          coverUrl: productCategoryById.coverUrl,
-          canHaveProducts: productCategoryById.canHaveProducts,
-          active: productCategoryById.active,
-          status: productCategoryById.status,
-          slug: productCategoryById.slug,
-          isProductRequestForm: (productCategoryById.productRequestForm && productCategoryById.productRequestForm.status === 'ACTIVE' )
+          id: productCategoryById?.id,
+          name: productCategoryById?.name,
+          description: productCategoryById?.description,
+          // price: productCategoryById?.price,
+          iconUrl: productCategoryById?.iconUrl,
+          coverUrl: productCategoryById?.coverUrl,
+          canHaveProducts: productCategoryById?.canHaveProducts,
+          active: productCategoryById?.active,
+          status: productCategoryById?.status,
+          slug: productCategoryById?.slug,
+          isProductRequestForm: (productCategoryById?.productRequestForm && productCategoryById?.productRequestForm.status === 'ACTIVE' )
             ? true
             : false,
         });
@@ -348,27 +347,26 @@ function EditCategory(props) {
     }));
   };
 
-  const changeTime1 = (time, timeString) => {
-    var hms = timeString;
-    var a = hms.split(":");
-    var seconds = +a[0] * 60 * 60 + +a[1] * 60;
+// Change time1 and time2 handling
+const changeTime1 = (time: moment.Moment | null, timeString: string) => {
+  if (time) {
     setDynamicForm((s) => ({
       ...s,
-      maxCompanyResponseDurationSeconds: seconds,
+      maxCompanyResponseDurationSeconds: time.hour() * 3600 + time.minute() * 60,
       time1: time,
     }));
-  };
+  }
+};
 
-  const changeTime2 = (time, timeString) => {
-    var hms = timeString;
-    var a = hms.split(":");
-    var seconds = +a[0] * 60 * 60 + +a[1] * 60;
+const changeTime2 = (time: moment.Moment | null, timeString: string) => {
+  if (time) {
     setDynamicForm((s) => ({
       ...s,
-      maxUserResponseDurationSeconds: seconds,
+      maxUserResponseDurationSeconds: time.hour() * 3600 + time.minute() * 60,
       time2: time,
     }));
-  };
+  }
+};
 
   const openAddFieldsModel = (type) => {
     setVisible(true);
@@ -384,6 +382,7 @@ function EditCategory(props) {
       )
       .format("HH:mm");
   };
+  
 
   return (
     <div className="dashboard">
@@ -472,7 +471,7 @@ function EditCategory(props) {
                     </p>
                     <TimePicker
                       bordered={false}
-                      value={moment(dynamicForm.time1, format)}
+                      value={dynamicForm.time1 ? moment(dynamicForm.time1) : null}
                       format={format}
                       onChange={changeTime1}
                     />
@@ -483,7 +482,7 @@ function EditCategory(props) {
                     </p>
                     <TimePicker
                       bordered={false}
-                      value={moment(dynamicForm.time2, format)}
+                      value={dynamicForm.time2 ? moment(dynamicForm.time2) : null}
                       format={format}
                       onChange={changeTime2}
                     />

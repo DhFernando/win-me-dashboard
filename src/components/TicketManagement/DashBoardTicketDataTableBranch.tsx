@@ -2,19 +2,19 @@ import { EyeOutlined } from "@ant-design/icons";
 import { Button, Table, Tag } from "antd";
 import React, { useState, useEffect, useContext, useCallback } from "react";
 import useTicketList from "../../hooks/useTicketList";
-import moment from "moment";
-import { useStore } from "../../store";
+import moment from "moment"; 
 import ReplyModel from "./ReplyModel";
 import SummaryTicket from "./SummaryTicket";
 import { SocketContext } from "../../socket";
 import client from "../../GraphQL/ApolloClient";
 import { ColumnType } from "antd/lib/table";
+import { useStore } from "store/useStore";
 
 function DashBoardTicketDataTableBranch() {
   const profileData = useStore((state) => state.profileData);
-  const [visible, setVisible] = useState<any>(false);
+  const [visible, setVisible] = useState<boolean>(false);
   const [visibleSummary, setVisibleSummary] = useState<any>(false);
-  const [replyTicketID, setReplyTicket] = useState<any>(false);
+  const [replyTicketID, setReplyTicket] = useState<boolean>(false);
 
   const [tableDate, setTableDate] = useState<any>([]);
   const [filterData, setFilterData] = useState<any>({
@@ -67,7 +67,9 @@ function DashBoardTicketDataTableBranch() {
   const ticketList = useTicketList(filterData);
 
   useEffect(() => {
-    setTableDate(ticketList.nodes);
+    if(ticketList){
+      setTableDate(ticketList.nodes);
+    }
   }, [ticketList]);
 
   const replyTicket = (ticket) => {
@@ -233,7 +235,7 @@ function DashBoardTicketDataTableBranch() {
         pagination={{
           current: filterData.page,
           pageSize: filterData.pageSize,
-          total: ticketList.totalCount,
+          total: ticketList?.totalCount,
           onChange: (page, pageSize) => {
             setFilterData({
               ...filterData,

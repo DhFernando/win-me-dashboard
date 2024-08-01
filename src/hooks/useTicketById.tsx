@@ -3,6 +3,7 @@ import { message } from "antd";
 import { useEffect, useState } from "react";
 import Progress from "react-progress-2";
 import { TICKET } from "../GraphQL/Queries";
+import { ITicket } from "types";
 
 function useTicketById(Id) {
   const { loading, error, data } = useQuery(TICKET, {
@@ -11,7 +12,7 @@ function useTicketById(Id) {
     },
     fetchPolicy: "no-cache",
   });
-  const [state, setState] = useState<any>([]);
+  const [state, setState] = useState<ITicket>();
 
   useEffect(() => {
     const getData = () => {

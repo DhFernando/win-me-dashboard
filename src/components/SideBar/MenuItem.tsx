@@ -1,6 +1,6 @@
 import React from "react";
-import { NavLink, Link } from "react-router-dom";
-import { useStore } from "../../store";
+import { NavLink, Link } from "react-router-dom"; 
+import { useStore } from "store/useStore";
 /**
  * @author
  * @function MenuItem

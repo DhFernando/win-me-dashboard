@@ -4,11 +4,11 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
 import client from "../../GraphQL/ApolloClient";
 import { useBreadCrumb } from "../../hooks/useBreadCrumb";
-import useTicketById from "../../hooks/useTicketById";
-import { useStore } from "../../store";
+import useTicketById from "../../hooks/useTicketById"; 
 import RequestDetails from "./RequestDetails";
 import TicketDataTable from "./TicketDataTable";
 import TicketDataTableBranch from "./TicketDataTableBranch";
+import { useStore } from "store/useStore";
 
 interface Ticket {
   referenceId: string;

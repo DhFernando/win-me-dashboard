@@ -1,12 +1,14 @@
 import { Input, Button, Form, message } from "antd";
 import React, { useCallback, useEffect } from "react";
-import { DatePicker } from "antd";
-import { useCompanyAdmin, useStore } from "../../store";
+import { DatePicker } from "antd"; 
 import moment from "moment";
 import Progress from "react-progress-2";
 import { useMutation } from "@apollo/client";
 import { CREATE_COMPANY, SEND_COMPANY_INVITATION } from "../../GraphQL/Mutations";
 import client from "../../GraphQL/ApolloClient";
+import { useStore } from "store/useStore";
+import { useCompanyAdmin } from "store/companyAdmin";
+import { GraphQLError, GraphQLSuccess } from "types/GraphQLTypes";
 
 export const StepThree = (props) => {
   const [form] = Form.useForm();
@@ -26,7 +28,7 @@ export const StepThree = (props) => {
 
   const [createCompany] = useMutation(CREATE_COMPANY, {
     onCompleted: (data) => {
-      if (data.createCompany.__typename === "CompanyCreated") {
+      if (data.createCompany.__typename === GraphQLSuccess.CompanyCreated) {
         client.refetchQueries({
           include: "active",
         });
@@ -45,9 +47,9 @@ export const StepThree = (props) => {
           });
         }, 8000);
       } else if (
-        data.createCompany.__typename === "CompanyUsernameTakenError" ||
-        data.createCompany.__typename === "CompanyCategoryNotFoundError" ||
-        data.createCompany.__typename === "CountryNotFoundError"
+        data.createCompany.__typename === GraphQLError.CompanyUsernameTakenError ||
+        data.createCompany.__typename === GraphQLError.CompanyCategoryNotFoundError ||
+        data.createCompany.__typename === GraphQLError.CountryNotFoundError
       ) {
         message.error(data.createCompany.message);
         Progress.hide();
@@ -63,7 +65,7 @@ export const StepThree = (props) => {
   const [sendCompanyInvitation] = useMutation(SEND_COMPANY_INVITATION, {
     onCompleted: (data) => {
       if (
-        data.sendCompanyInvitation.__typename === "CompanyInvitationCreated"
+        data.sendCompanyInvitation.__typename === GraphQLSuccess.CompanyInvitationCreated
       ) {
         message.success("Company invitation sent successfully");
         setClientData({});

@@ -1,8 +1,8 @@
 import { Input, Button, Form, message } from "antd";
-import React, { useCallback, useEffect } from "react";
-import { useStore } from "../../store";
-import NumberFormat from "react-number-format";
-import { SocialMediaType } from "../../types";
+import { useCallback, useEffect } from "react"; 
+import NumberFormat from "react-number-format"; 
+import { useStore } from "store/useStore";
+import { SocialMediaType } from "types/enums";
 
 export const StepTwo = (props) => {
   const [form] = Form.useForm();

@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useBreadcrumbStore } from "../store";
+import { useBreadcrumbStore } from "store/breadcrumbStore";
 
 export const useBreadCrumb = (name: string, location: string, title: string, type?: string) => {
   const setBreadcrumb = useBreadcrumbStore((state) => state.setBreadcrumb);

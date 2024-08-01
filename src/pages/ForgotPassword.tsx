@@ -8,6 +8,7 @@ import { useMutation } from "@apollo/client";
 import { REQUEST_PASSWORD_RESET_OTP } from "../GraphQL/Mutations";
 import { useHistory } from "react-router-dom";
 import { Link } from "react-router-dom";
+import { GraphQLSuccess } from "types/GraphQLTypes";
 
 export default function ForgotPassword() {
   const [form] = Form.useForm();
@@ -26,7 +27,7 @@ export default function ForgotPassword() {
 
   const [requestPasswordResetOtp] = useMutation(REQUEST_PASSWORD_RESET_OTP, {
     onCompleted: (data) => {
-      if (data.requestPasswordResetOtp.__typename === "PasswordResetRequest") {
+      if (data.requestPasswordResetOtp.__typename === GraphQLSuccess.PasswordResetRequest) {
         message.success("OTP sent successfully to your email");
         history.push(
           `/code-verification/${data.requestPasswordResetOtp.otpSession.token}`

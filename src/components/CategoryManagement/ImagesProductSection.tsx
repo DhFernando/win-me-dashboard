@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
-import { useImagesStore, usePostDataStore } from "../../store";
+import React, { useEffect, useState } from "react"; 
 import ImageUploadCover from "../Model/ImageUploadCover";
 import ImageUploadProfile from "../Model/ImageUploadProfile";
+import { useImagesStore } from "store/imagesStore";
+import { usePostDataStore } from "store/postDataStore";
 // import ImageUploadModel from "../Model/ImageUploadModel";
 
 function ImagesProductSection() {

@@ -4,15 +4,17 @@ import { Steps } from "antd";
 import { StepOne } from "./StepOne";
 import { StepTwo } from "./StepTwo";
 import { StepThree } from "./StepThree";
-import { StepFour } from "./StepFour";
-import { useCompanyAdmin, useImagesStore, useStore } from "../../store";
+import { StepFour } from "./StepFour"; 
+import { useStore } from "store/useStore";
+import { useCompanyAdmin } from "store/companyAdmin";
+import { useImagesStore } from "store/imagesStore";
 
 const { Step } = Steps;
 
 function NewClientModel({ visible, setVisible }) {
   const [current, setCurrent] = React.useState<any>(0);
 
-  const setClientData = useStore((state) => state.setClientData);
+  const setClientData = useStore ((state) => state.setClientData);
   const setCompanyAdmin = useCompanyAdmin((state) => state.setCompanyAdmin);
   const setImagesStore = useImagesStore((state) => state.setImagesStore);
 

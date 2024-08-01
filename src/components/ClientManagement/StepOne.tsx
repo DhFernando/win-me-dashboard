@@ -1,10 +1,10 @@
 import { Input, Select, Button, message, Form, InputNumber } from "antd";
-import React, { useEffect } from "react";
-import { useStore } from "../../store";
+import React, { useEffect } from "react"; 
 import ImagesSection from "./ImagesSection";
 import useCountryList from "../../hooks/useCountryList";
 import useProductsCategoryList from "../../hooks/useProductsCategoryList";
 import { ValueType } from "aws-sdk/clients/textract";
+import { useStore } from "store/useStore";
 
 const { Option } = Select;
 

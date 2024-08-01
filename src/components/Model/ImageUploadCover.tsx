@@ -4,9 +4,9 @@ import { UploadOutlined } from "@ant-design/icons";
 import Cropper from "react-easy-crop";
 import getCroppedImg from "./cropImage";
 import { uploadFileToS3 } from "../../util/uploadFileToS3";
-import Progress from "react-progress-2";
-import { useImagesStore } from "../../store";
+import Progress from "react-progress-2"; 
 import {S3config} from '../../properties'
+import { useImagesStore } from "store/imagesStore";
 
 function ImageUploadCover({ visible, setVisible, location }) {
   const [crop, setCrop] = useState<any>({ x: 0, y: 0 });
