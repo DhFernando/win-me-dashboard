@@ -2,7 +2,8 @@ export enum GraphQLError {
   DuplicateSlugError='DuplicateSlugError',
   CompanyUsernameTakenError='CompanyUsernameTakenError',
   CompanyCategoryNotFoundError='CompanyCategoryNotFoundError',
-  CountryNotFoundError='CountryNotFoundError'
+  CountryNotFoundError='CountryNotFoundError',
+  InvalidLoginError='InvalidLoginError'
 }
 
 export enum GraphQLSuccess {

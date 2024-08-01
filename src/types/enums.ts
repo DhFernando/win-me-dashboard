@@ -57,3 +57,7 @@ export const SocialMediaType = Object.freeze({
     CompanyResponseTimeoutJob = 'CompanyResponseTimeoutJob',
   }
   
+  export enum CountDownMessage{
+    EXPIRED = 'EXPIRED',
+    TIMEOUT = 'TIME OUT'
+  }

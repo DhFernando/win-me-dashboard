@@ -14,6 +14,7 @@ import {
   CheckOutlined,
   CloseOutlined,
 } from "@ant-design/icons";
+import { IProduct } from "types";
 
 export default function SummaryTicket({
   visible,
@@ -55,6 +56,7 @@ export default function SummaryTicket({
   });
 
   useEffect(() => {
+    console.log(ticketById)
     form.setFieldsValue({
       name: `${ticketById?.userDetails?.firstName} ${ticketById?.userDetails?.lastName}`,
       contact: ticketById?.userDetails?.phone,
@@ -95,7 +97,12 @@ export default function SummaryTicket({
         <br />
         <p className="step_header">
           <CheckCircleTwoTone twoToneColor="#52c41a" />
-          Add Your Response |<span>Details about the response</span>
+          {ticketById?.confirmedProductId ? 'Confirmed Product Response': 'Add Your Response'} |<span>Details about the response</span>
+        </p>
+        <p className="step_header" style={{ padding: 10 }}>
+          {ticketById?.confirmedProductId && (
+             <>|<span>Product Name </span> : {ticketById.requestedProducts.find((rq: IProduct) => rq.id === ticketById.confirmedProductId)?.name}</>
+          )}
         </p>
         {ticketById && (
           <JsonForms

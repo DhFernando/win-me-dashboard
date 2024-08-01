@@ -10,15 +10,16 @@ import {
   DatePickerProps,
   InputRef,
 } from "antd";
-import React, { useEffect, useRef, useState } from "react";
+import {  useRef, useState } from "react";
 import { useMutation } from "@apollo/client";
 import { REPLY_TICKET } from "../../GraphQL/Mutations"; 
 import TextArea, { TextAreaRef } from "antd/lib/input/TextArea";
 import Progress from "react-progress-2";
 import { useStore } from "store/useStore";
 import { GraphQLSuccess } from "types/GraphQLTypes";
+import moment from "moment";
 
-function ProductForm({
+function  ProductForm({
   initialData,
   isProductSubmitted,
   fieldNames,
@@ -50,12 +51,8 @@ function ProductForm({
       Progress.hide();
     },
     fetchPolicy: "no-cache",
-  });
-
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
-
+  }); 
+  
   const replyForm = (requestedProductId) => {
     const processedData = processFormData(data, requestedProductId);
     handleProductSubmit(ticketId, requestedProductId);
@@ -79,7 +76,11 @@ function ProductForm({
   };
 
   const handleDateChange = (name, date, dateString) => {
-    setData((prev) => ({ ...prev, [name]: dateString }));
+    if (date) {
+      setData((prev) => ({ ...prev, [name]: dateString }));
+    } else {
+      setData((prev) => ({ ...prev, [name]: null }));
+    }
   };
 
   const processFormData = (formData, requestedProductId) => {
@@ -140,7 +141,7 @@ function ProductForm({
             <Input
               key={uniqueName}
               name={uniqueName}
-              value={data[uniqueName]}
+              // value={data[uniqueName]}
               ref={(el) => (refs.current[uniqueName] = el)}
               onChange={(e) => handleInputChange(uniqueName, e.target.value)}
               defaultValue={initialData[fieldName]}
@@ -157,10 +158,11 @@ function ProductForm({
             <DatePicker
               key={uniqueName}
               name={uniqueName}
-              value={data[uniqueName]}
+              value={data[uniqueName] ? moment(data[uniqueName]): null}
               ref={(el) => (refs.current[uniqueName] = el)}
-              onChange={(date, dateString) =>
-                handleDateChange(uniqueName, date, dateString)
+              onChange={(date, dateString) =>{
+                handleDateChange(uniqueName, date, dateString) 
+              } 
               }
               disabled={isProductSubmitted}
             />
@@ -284,7 +286,7 @@ function ProductForm({
       onFinish={onFinish}
       onFinishFailed={onFinishFailed}
       initialValues={initialData}
-    >
+    > 
       {fieldNames.map((fieldName) => {
         const fieldInfo = responseFields?.find(
           (field) => field.fields.name === fieldName

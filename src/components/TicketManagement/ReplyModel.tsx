@@ -1,5 +1,5 @@
 import { Modal, Typography } from "antd";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   materialRenderers,
   materialCells,
@@ -9,7 +9,7 @@ import CountDownTimer from "../../util/CountDownTimer";
 import useTicketById from "../../hooks/useTicketById";
 import moment from "moment";
 import ProductForm from "./ProductForm";
-import { Box } from "@mui/material";
+import { CountDownMessage } from "types/enums";
 
 const { Title } = Typography;
 
@@ -20,6 +20,7 @@ export default function ReplyModel({
   handleProductSubmit,
   submittedStatus,
 }) {
+  const [countDownMassage, setCountDownMassage] = useState<CountDownMessage>(CountDownMessage.EXPIRED);
   const ticketById = useTicketById(ticketId);
 
   const findReplyData = (productId) => {
@@ -32,6 +33,13 @@ export default function ReplyModel({
   const isSubmitted = (productId) => {
     return submittedStatus && submittedStatus[productId];
   };
+
+  useEffect(()=>{
+    if(ticketById){
+      console.log(ticketById)
+    }
+  }, [ticketById])
+   
 
   return (
     <Modal
@@ -47,6 +55,7 @@ export default function ReplyModel({
       <div className="model_body">
         {ticketById && (
           <CountDownTimer
+           message={countDownMassage}
             targetDate={moment(
               ticketById.productRequest.maxCompanyResponseTimeExpiresAt
             )}
@@ -55,6 +64,10 @@ export default function ReplyModel({
 
         {ticketById?.requestedProducts?.map((requested_product, index) => {
           const initialData = findReplyData(requested_product.id);
+          if(JSON.stringify(initialData) !== '{}' && countDownMassage === CountDownMessage.EXPIRED){ 
+            // check initial data has value, if value exist, then update coundown message
+            setCountDownMassage(CountDownMessage.TIMEOUT)
+          }
           const isProductSubmitted = isSubmitted(requested_product.id);
 
           const schema = JSON.parse(
@@ -65,7 +78,6 @@ export default function ReplyModel({
           const responseFields = JSON.parse(
             ticketById.productCategory.productRequestForm.responseFields
           );
-          console.log("responseFields", responseFields);
 
           return (
             <div key={requested_product.id || index}>
@@ -91,26 +103,14 @@ export default function ReplyModel({
                   cells={materialCells}
                   readonly
                 />
-              )}
-
-              {Object.entries(JSON.parse(ticketById.productRequest.requestData)).map(([key, value]) => {
-                const matchingProperty = JSON.parse(ticketById.productCategory.productRequestForm.requestFormSchema).properties[key];
-                if(matchingProperty && matchingProperty.format && matchingProperty.format === 'date') {
-                  return (
-                    <Box key={key} sx={{ color: 'gray' }}>
-                      <strong>{key}:</strong> {JSON.stringify(value)}
-                    </Box>
-                  );
-                }
-              })}
+              )} 
 
               <br />
               <br />
 
               <p className="step_header">
-                Add Your Response | <span>Details about the request</span>
-              </p>
-
+                {ticketById.confirmedProductId ? 'Confirmed Product Response': 'Add Your Response'} | <span>Details about the request</span>
+              </p> 
               <ProductForm
                 fieldNames={fieldNames}
                 handleProductSubmit={handleProductSubmit}

@@ -10,6 +10,7 @@ import { USER_LOGIN } from "../GraphQL/Mutations";
 import "./../assets/css/Common.scss";
 import "./../assets/css/Login.scss";
 import { useStore } from "store/useStore";
+import { GraphQLError } from "types/GraphQLTypes";
 
 export default function Login() {
   const [form] = Form.useForm();
@@ -28,6 +29,7 @@ export default function Login() {
         fcmToken: "admin-token"
       },
     }).then((res) => {
+      console.log(res)
       if (res.data) {
         const { accessToken, refreshToken } = res.data.loginUserWithPassword;
         if (accessToken && refreshToken) {
@@ -41,7 +43,11 @@ export default function Login() {
             });
           }, 1000);
         } else {
-          message.error("Invalid Credentials");
+          if(res.data.loginUserWithPassword.__typename === GraphQLError.InvalidLoginError){
+            message.error(res.data.loginUserWithPassword.message)
+          }else{
+            message.error("Invalid Credentials");
+          } 
         }
       }
       Progress.hide();
